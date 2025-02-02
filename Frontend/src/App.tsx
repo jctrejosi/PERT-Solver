@@ -1,3 +1,4 @@
+import { AppContainer } from "./styles/AppStyles";
 import { Container, Grid } from "@mui/material";
 import { Navbar } from "./components/Navbar";
 import { ActivityForm } from "./components/ActivityForm";
@@ -7,7 +8,7 @@ import { ProgressSection } from "./components/ProgressSection";
 
 export function App() {
   return (
-    <div>
+    <AppContainer>
       <Navbar />
       <Container>
         <Grid container spacing={3}>
@@ -21,6 +22,6 @@ export function App() {
         </Grid>
         <ProgressSection />
       </Container>
-    </div>
+    </AppContainer>
   );
 }
