@@ -26,6 +26,16 @@ export function ActivityForm({ activities = ["A", "B"] }: ActivityFormProps) {
     dependenciesSelected: [],
   });
 
+  const [errors, setErrors] = useState({
+    name: false,
+    cost: false,
+    optimist: false,
+    probable: false,
+    pessimist: false,
+    acceleration: false,
+    accelerationCost: false,
+  });
+
   const handleChange = (
     e:
       | React.ChangeEvent<HTMLInputElement>
@@ -35,11 +45,56 @@ export function ActivityForm({ activities = ["A", "B"] }: ActivityFormProps) {
       | HTMLInputElement
       | { name?: string; value: unknown };
     setActivity({ ...activity, [name as string]: value });
+    setErrors({ ...errors, [name as string]: false });
   };
 
   const handleChangeDependencie = () => {};
 
   const handleSubmit = () => {
+    const newErrors = {
+      name: activity.name === "",
+      cost: activity.cost === "",
+      optimist: false,
+      probable: false,
+      pessimist: false,
+      acceleration: false,
+      accelerationCost: false,
+    };
+
+    if (activity.optimist && (!activity.probable || !activity.pessimist)) {
+      newErrors.probable = activity.probable === "";
+      newErrors.pessimist = activity.pessimist === "";
+    }
+
+    if (activity.probable && !activity.optimist) {
+      newErrors.optimist = activity.optimist === "";
+    }
+
+    if (!activity.optimist && !activity.probable && !activity.pessimist) {
+      newErrors.probable = activity.probable === "";
+    }
+
+    if (activity.acceleration && !activity.accelerationCost) {
+      newErrors.accelerationCost = activity.accelerationCost === "";
+    }
+
+    if (activity.accelerationCost && !activity.acceleration) {
+      newErrors.acceleration = activity.acceleration === "";
+    }
+
+    if (
+      newErrors.name ||
+      newErrors.cost ||
+      newErrors.optimist ||
+      newErrors.probable ||
+      newErrors.pessimist ||
+      newErrors.acceleration ||
+      newErrors.accelerationCost
+    ) {
+      setErrors(newErrors);
+      return;
+    }
+
     // Lógica para agregar la actividad
   };
 
@@ -52,6 +107,8 @@ export function ActivityForm({ activities = ["A", "B"] }: ActivityFormProps) {
           value={activity.name}
           onChange={handleChange}
           fullWidth
+          error={errors.name}
+          helperText={errors.name ? "Este campo es obligatorio" : ""}
         />
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">Dependencia</InputLabel>
@@ -79,6 +136,8 @@ export function ActivityForm({ activities = ["A", "B"] }: ActivityFormProps) {
               type="number"
               value={activity.optimist}
               onChange={handleChange}
+              error={errors.optimist}
+              helperText={errors.optimist ? "Este campo es obligatorio" : ""}
             />
           </Grid>
           <Grid size="grow">
@@ -88,6 +147,8 @@ export function ActivityForm({ activities = ["A", "B"] }: ActivityFormProps) {
               name="probable"
               value={activity.probable}
               onChange={handleChange}
+              error={errors.probable}
+              helperText={errors.probable ? "Este campo es obligatorio" : ""}
             />
           </Grid>
           <Grid size="grow">
@@ -97,6 +158,8 @@ export function ActivityForm({ activities = ["A", "B"] }: ActivityFormProps) {
               name="pessimist"
               value={activity.pessimist}
               onChange={handleChange}
+              error={errors.pessimist}
+              helperText={errors.pessimist ? "Este campo es obligatorio" : ""}
             />
           </Grid>
         </Grid>
@@ -108,16 +171,20 @@ export function ActivityForm({ activities = ["A", "B"] }: ActivityFormProps) {
             value={activity.cost}
             onChange={handleChange}
             fullWidth
+            error={errors.cost}
+            helperText={errors.cost ? "Este campo es obligatorio" : ""}
           />
         </Grid>
         <Grid width="100%">
           <TextField
-            label="Aceleració aplicable"
+            label="Aceleración aplicable"
             type="number"
             name="acceleration"
             value={activity.acceleration}
             onChange={handleChange}
             fullWidth
+            error={errors.acceleration}
+            helperText={errors.acceleration ? "Este campo es obligatorio" : ""}
           />
         </Grid>
         <Grid width="100%">
@@ -128,6 +195,10 @@ export function ActivityForm({ activities = ["A", "B"] }: ActivityFormProps) {
             value={activity.accelerationCost}
             onChange={handleChange}
             fullWidth
+            error={errors.accelerationCost}
+            helperText={
+              errors.accelerationCost ? "Este campo es obligatorio" : ""
+            }
           />
         </Grid>
         <Grid width="100%">
