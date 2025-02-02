@@ -8,8 +8,6 @@ __pycache__/
 *.swp
 
 # Ignorar dependencias de Python
-Pipfile
-Pipfile.lock
 requirements.txt
 
 # Ignorar archivos de configuración y secretos
