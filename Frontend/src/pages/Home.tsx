@@ -1,14 +1,14 @@
-import { AppContainer } from "./styles/AppStyles";
+import { HomeContainer } from "../styles/AppStyles";
 import { Container } from "@mui/material";
-import Grid2 from "@mui/material/Grid2"; // Grid2 is the new component
-import { Navbar } from "./components/Navbar";
-import { ActivityForm } from "./components/ActivityForm";
-import { ActivityList } from "./components/ActivityList";
-import { ReportsPanel } from "./components/ReportsPanel";
+import Grid2 from "@mui/material/Grid2";
+import { Navbar } from "../components/Navbar";
+import { ActivityForm } from "../components/ActivityForm";
+import { ActivityList } from "../components/ActivityList";
+import { ReportsPanel } from "../components/ReportsPanel";
 
-export function App() {
+export function Home() {
   return (
-    <AppContainer>
+    <HomeContainer>
       <Navbar />
       <Container
         maxWidth="xl"
@@ -36,6 +36,6 @@ export function App() {
           </Grid2>
         </Grid2>
       </Container>
-    </AppContainer>
+    </HomeContainer>
   );
 }
