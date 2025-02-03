@@ -109,17 +109,16 @@ export function ActivityForm({ activities = ["A", "B"] }: ActivityFormProps) {
   const handleClose = () => setOpen(false);
 
   return (
-    <div style={{ height: "4rem" }}>
-      <Box display="flex" justifyContent="flex-end">
-        <Button
-          variant="outlined"
-          color="primary"
-          onClick={handleOpen}
-          endIcon={<AddCircleOutlineIcon />}
-        >
-          Agregar Actividad
-        </Button>
-      </Box>
+    <div style={{ width: "100%" }}>
+      <Button
+        variant="outlined"
+        color="primary"
+        onClick={handleOpen}
+        endIcon={<AddCircleOutlineIcon />}
+        fullWidth
+      >
+        Agregar Actividad
+      </Button>
       <Modal open={open} onClose={handleClose} style={{ height: "100%" }}>
         <Box
           sx={{

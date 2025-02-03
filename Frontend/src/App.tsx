@@ -14,13 +14,14 @@ export function App() {
         <Grid2 container spacing={2} style={{ height: "100%" }}>
           <Grid2
             sx={{
+              display: "flex",
+              flex: 1,
+              flexDirection: "column",
               height: "100%",
               overflowY: "auto",
               pr: 2,
-              flex: 1,
-              maxWidth: "20rem",
-              display: "flex",
-              flexDirection: "column",
+              width: "20rem",
+              pl: 2,
             }}
           >
             <ActivityForm />
