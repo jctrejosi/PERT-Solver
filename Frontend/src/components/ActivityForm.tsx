@@ -1,8 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   TextField,
   Button,
-  MenuItem,
   Select,
   InputLabel,
   FormControl,
@@ -10,20 +9,24 @@ import {
   Divider,
   Modal,
   Box,
+  SelectChangeEvent,
+  MenuItem,
+  ListItemText,
+  OutlinedInput,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { Activity } from "../@types/core";
 
-interface ActivityFormProps {
-  activitiesList?: string[];
+export type ActivityFormProps = {
+  activitiesSelectedDefault?: string[];
   activitySelected?: Activity;
-}
+  onAddActivity?: (activity: Activity) => void;
+};
 
 export function ActivityForm({
-  activitiesList = ["A", "B"],
+  activitiesSelectedDefault = [],
   activitySelected = {
-    id: {} as number,
     acceleration: undefined as number | undefined,
     accelerationCost: undefined as number | undefined,
     name: "",
@@ -33,10 +36,9 @@ export function ActivityForm({
     cost: 0,
     dependencies: [],
   },
+  onAddActivity = () => {},
 }: ActivityFormProps) {
-  const [activity, setActivity] = useState({
-    ...activitySelected,
-  });
+  const [activity, setActivity] = useState({} as Activity);
 
   const [errors, setErrors] = useState({
     name: false,
@@ -49,6 +51,9 @@ export function ActivityForm({
   });
 
   const [open, setOpen] = useState(false);
+  const [valueSelect, setValueSelect] = useState<string[]>(
+    activitiesSelectedDefault
+  );
 
   const handleChange = (
     e:
@@ -99,23 +104,42 @@ export function ActivityForm({
     setErrors({ ...errors, [name]: parsedError });
   };
 
-  const handleChangeDependencie = () => {};
+  const handleChangeDependencie = (
+    event: SelectChangeEvent<typeof valueSelect>
+  ) => {
+    const {
+      target: { value },
+    } = event;
+    const newValue = typeof value === "string" ? value.split(",") : value;
+    setValueSelect(newValue);
+
+    setActivity({ ...activity, dependencies: newValue });
+  };
 
   const handleSubmit = () => {
     const newErrors = {
-      name: activity.name == "",
+      name: activity.name === undefined || activity.name === "",
       cost: activity.cost === undefined || typeof activity.cost == "object",
       optimist:
+        (activity.optimist == undefined ||
+          typeof activity.optimist == "object") &&
         activity.pessimist != undefined &&
         typeof activity.pessimist != "object",
       probable:
         activity.probable === undefined || typeof activity.probable == "object",
       pessimist:
-        activity.optimist != undefined && typeof activity.optimist != "object",
+        (activity.pessimist == undefined ||
+          typeof activity.pessimist == "object") &&
+        activity.optimist != undefined &&
+        typeof activity.optimist != "object",
       acceleration:
+        (activity.acceleration == undefined ||
+          typeof activity.acceleration == "object") &&
         activity.accelerationCost != undefined &&
         typeof activity.accelerationCost != "object",
       accelerationCost:
+        (activity.accelerationCost == undefined ||
+          typeof activity.accelerationCost == "object") &&
         activity.acceleration != undefined &&
         typeof activity.acceleration != "object",
     };
@@ -134,11 +158,22 @@ export function ActivityForm({
       return;
     }
 
-    // Lógica para agregar la actividad
+    if (activitiesSelectedDefault.includes(activity.name)) {
+      setErrors({ ...newErrors, name: true });
+      return;
+    }
+
+    onAddActivity(activity);
+    setOpen(false);
   };
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  useEffect(() => {
+    if (activitySelected.name && activitySelected.name !== "") setOpen(true);
+    setActivity(activitySelected);
+  }, [activitySelected]);
 
   return (
     <div style={{ width: "100%" }}>
@@ -182,9 +217,10 @@ export function ActivityForm({
             display="flex"
             justifyContent="space-between"
             alignItems="center"
+            marginBottom={3}
           >
             <Typography variant="h5" gutterBottom>
-              Formulario de Actividad
+              Edite los datos de la actividad
             </Typography>
             <Button
               onClick={handleClose}
@@ -205,24 +241,27 @@ export function ActivityForm({
                 onChange={handleChange}
                 fullWidth
                 error={errors.name}
-                helperText={errors.name ? "Este campo es obligatorio" : ""}
+                helperText={
+                  errors.name ? "Este campo es obligatorio e irrepetible" : ""
+                }
               />
               <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">
-                  Dependencia
+                  Dependencia (De dónde procede la actividad)
                 </InputLabel>
-                <Select
+                <Select<string[]>
                   size="medium"
                   multiple
-                  labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  value={activity.dependencies}
+                  value={valueSelect}
+                  labelId="demo-simple-select-label"
                   label="Dependencias"
+                  input={<OutlinedInput label="Name" />}
                   onChange={handleChangeDependencie}
                 >
-                  {activitiesList.map((activityName, index) => (
-                    <MenuItem key={index} value={activityName}>
-                      {activityName}
+                  {activitiesSelectedDefault.map((name) => (
+                    <MenuItem key={name} value={name}>
+                      <ListItemText primary={name} />
                     </MenuItem>
                   ))}
                 </Select>
