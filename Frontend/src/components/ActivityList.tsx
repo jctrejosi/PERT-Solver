@@ -8,7 +8,7 @@ export function ActivityList() {
   ];
 
   return (
-    <List>
+    <List style={{ flex: 2, height: "100%", overflowY: "auto" }}>
       {activities.map((activity, index) => (
         <ListItem key={index}>
           <ListItemText
