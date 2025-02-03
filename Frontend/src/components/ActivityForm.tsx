@@ -24,12 +24,12 @@ export function ActivityForm({
   activitiesList = ["A", "B"],
   activitySelected = {
     id: {} as number,
-    acceleration: {} as number,
-    accelerationCost: {} as number,
+    acceleration: undefined,
+    accelerationCost: undefined,
     name: "",
-    optimist: {} as number,
+    optimist: undefined,
     probable: {} as number,
-    pessimist: {} as number,
+    pessimist: undefined,
     cost: {} as number,
     dependencies: [],
   },
@@ -53,37 +53,80 @@ export function ActivityForm({
   const handleChange = (
     e:
       | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<{ name?: string; value: unknown }>
+      | React.ChangeEvent<{ name?: string; value: number | string }>
   ) => {
     const { name, value } = e.target as
       | HTMLInputElement
-      | { name?: string; value: unknown };
-    setActivity({ ...activity, [name as string]: value });
-    setErrors({ ...errors, [name as string]: false });
+      | { name: string; value: number | string };
+    let parsedValue: number | string | undefined;
+    let parsedError: boolean = false;
+
+    switch (name) {
+      case "name":
+        parsedValue = value;
+        parsedError = value === "";
+        break;
+      case "cost":
+        parsedValue = value === "" ? undefined : Number(value);
+        parsedError = value === "";
+        break;
+      case "optimist":
+        parsedValue = value === "" ? undefined : Number(value);
+        parsedError = activity.pessimist !== undefined && value === "";
+        break;
+      case "probable":
+        parsedValue = value === "" ? undefined : Number(value);
+        parsedError = value === "";
+        break;
+      case "pessimist":
+        parsedValue = value === "" ? undefined : Number(value);
+        parsedError = activity.optimist !== undefined && value === "";
+        break;
+      case "acceleration":
+        parsedValue = value === "" ? undefined : Number(value);
+        parsedError = activity.accelerationCost !== undefined && value === "";
+        break;
+      case "accelerationCost":
+        parsedValue = value === "" ? undefined : Number(value);
+        parsedError = activity.acceleration !== undefined && value === "";
+        break;
+      default:
+        parsedValue = value;
+        parsedError = false;
+    }
+
+    setActivity({ ...activity, [name]: parsedValue });
+    setErrors({ ...errors, [name]: parsedError });
   };
 
   const handleChangeDependencie = () => {};
 
   const handleSubmit = () => {
+    console.log(
+      activity.pessimist &&
+        typeof activity.pessimist == "object" &&
+        activity.optimist &&
+        typeof activity.optimist != "object",
+      activity.pessimist,
+      activity.optimist
+    );
+
     const newErrors = {
       name: activity.name == "",
-      cost:
-        typeof activity.cost === "object" || typeof activity.cost === "string",
+      cost: activity.cost === undefined || typeof activity.cost == "object",
       optimist:
-        typeof activity.pessimist !== "object" ||
-        typeof activity.pessimist !== "string",
+        activity.pessimist != undefined &&
+        typeof activity.pessimist != "object",
       probable:
-        typeof activity.probable === "object" ||
-        typeof activity.probable === "string",
+        activity.probable === undefined || typeof activity.probable == "object",
       pessimist:
-        typeof activity.optimist !== "object" ||
-        typeof activity.optimist !== "string",
+        activity.optimist != undefined && typeof activity.optimist != "object",
       acceleration:
-        typeof activity.accelerationCost !== "object" ||
-        typeof activity.accelerationCost !== "string",
+        activity.accelerationCost != undefined &&
+        typeof activity.accelerationCost != "object",
       accelerationCost:
-        typeof activity.acceleration !== "object" ||
-        typeof activity.acceleration !== "string",
+        activity.acceleration != undefined &&
+        typeof activity.acceleration != "object",
     };
 
     setErrors(newErrors);
