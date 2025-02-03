@@ -116,6 +116,7 @@ export function ActivityForm({ activities = ["A", "B"] }: ActivityFormProps) {
         onClick={handleOpen}
         endIcon={<AddCircleOutlineIcon />}
         fullWidth
+        style={{ marginBottom: "1rem" }}
       >
         Agregar Actividad
       </Button>

@@ -10,17 +10,19 @@ export function App() {
   return (
     <AppContainer>
       <Navbar />
-      <Container maxWidth="xl" style={{ flex: 1, display: "flex", padding: 0 }}>
-        <Grid2 container spacing={2} style={{ height: "100%" }}>
+      <Container
+        maxWidth="xl"
+        style={{ flex: 1, display: "flex", padding: 0, width: "100%" }}
+      >
+        <Grid2 container spacing={2} style={{ height: "100%", width: "100%" }}>
           <Grid2
             sx={{
               display: "flex",
-              flex: 1,
               flexDirection: "column",
               height: "100%",
               overflowY: "auto",
               pr: 2,
-              width: "20rem",
+              width: "17rem",
               pl: 2,
             }}
           >
