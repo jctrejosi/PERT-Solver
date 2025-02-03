@@ -8,9 +8,7 @@ export const Navbar = () => {
           PERT-Solver
         </Typography>
         <Button color="inherit">Inicio</Button>
-        <Button color="inherit">Ingreso de Actividades</Button>
         <Button color="inherit">Análisis y Gráficos</Button>
-        <Button color="inherit">Configuración</Button>
       </Toolbar>
     </AppBar>
   );

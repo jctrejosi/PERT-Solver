@@ -13,22 +13,29 @@ import {
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import { Activity } from "../@types/core";
 
 interface ActivityFormProps {
-  activities?: string[];
+  activitiesList?: string[];
+  activitySelected?: Activity;
 }
 
-export function ActivityForm({ activities = ["A", "B"] }: ActivityFormProps) {
-  const [activity, setActivity] = useState({
-    acceleration: "",
-    accelerationCost: "",
+export function ActivityForm({
+  activitiesList = ["A", "B"],
+  activitySelected = {
+    id: {} as number,
+    acceleration: {} as number,
+    accelerationCost: {} as number,
     name: "",
-    optimist: "",
-    probable: "",
-    pessimist: "",
-    cost: "",
+    optimist: {} as number,
+    probable: {} as number,
+    pessimist: {} as number,
+    cost: {} as number,
     dependencies: [],
-    dependenciesSelected: [],
+  },
+}: ActivityFormProps) {
+  const [activity, setActivity] = useState({
+    ...activitySelected,
   });
 
   const [errors, setErrors] = useState({
@@ -59,35 +66,27 @@ export function ActivityForm({ activities = ["A", "B"] }: ActivityFormProps) {
 
   const handleSubmit = () => {
     const newErrors = {
-      name: activity.name === "",
-      cost: activity.cost === "",
-      optimist: false,
-      probable: false,
-      pessimist: false,
-      acceleration: false,
-      accelerationCost: false,
+      name: activity.name == "",
+      cost:
+        typeof activity.cost === "object" || typeof activity.cost === "string",
+      optimist:
+        typeof activity.pessimist !== "object" ||
+        typeof activity.pessimist !== "string",
+      probable:
+        typeof activity.probable === "object" ||
+        typeof activity.probable === "string",
+      pessimist:
+        typeof activity.optimist !== "object" ||
+        typeof activity.optimist !== "string",
+      acceleration:
+        typeof activity.accelerationCost !== "object" ||
+        typeof activity.accelerationCost !== "string",
+      accelerationCost:
+        typeof activity.acceleration !== "object" ||
+        typeof activity.acceleration !== "string",
     };
 
-    if (activity.optimist && (!activity.probable || !activity.pessimist)) {
-      newErrors.probable = activity.probable === "";
-      newErrors.pessimist = activity.pessimist === "";
-    }
-
-    if (activity.probable && !activity.optimist) {
-      newErrors.optimist = activity.optimist === "";
-    }
-
-    if (!activity.optimist && !activity.probable && !activity.pessimist) {
-      newErrors.probable = activity.probable === "";
-    }
-
-    if (activity.acceleration && !activity.accelerationCost) {
-      newErrors.accelerationCost = activity.accelerationCost === "";
-    }
-
-    if (activity.accelerationCost && !activity.acceleration) {
-      newErrors.acceleration = activity.acceleration === "";
-    }
+    setErrors(newErrors);
 
     if (
       newErrors.name ||
@@ -98,7 +97,6 @@ export function ActivityForm({ activities = ["A", "B"] }: ActivityFormProps) {
       newErrors.acceleration ||
       newErrors.accelerationCost
     ) {
-      setErrors(newErrors);
       return;
     }
 
@@ -184,11 +182,11 @@ export function ActivityForm({ activities = ["A", "B"] }: ActivityFormProps) {
                   multiple
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  value={activity.dependenciesSelected}
+                  value={activity.dependencies}
                   label="Dependencias"
                   onChange={handleChangeDependencie}
                 >
-                  {activities.map((activityName, index) => (
+                  {activitiesList.map((activityName, index) => (
                     <MenuItem key={index} value={activityName}>
                       {activityName}
                     </MenuItem>

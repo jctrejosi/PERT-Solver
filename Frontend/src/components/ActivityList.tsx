@@ -1,21 +1,10 @@
 import { List, ListItem, ListItemText, IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import { Activity } from "../@types/core";
 
 export function ActivityList() {
-  const activities = [
-    { name: "Actividad inicio", optimist: 2, probable: 4, pessimist: 6 },
-    { name: "Actividad 1", probable: 4 },
-    { name: "Actividad 1", optimist: 2, probable: 4, pessimist: 6 },
-    { name: "Actividad 1", optimist: 2, probable: 4, pessimist: 6 },
-    { name: "Actividad 1", optimist: 2, probable: 4, pessimist: 6 },
-    { name: "Actividad 1", optimist: 2, probable: 4, pessimist: 6 },
-    { name: "Actividad 1", optimist: 2, probable: 4, pessimist: 6 },
-    { name: "Actividad 1", optimist: 2, probable: 4, pessimist: 6 },
-    { name: "Actividad 1", optimist: 2, probable: 4, pessimist: 6 },
-    { name: "Actividad 1", optimist: 2, probable: 4, pessimist: 6 },
-    { name: "Actividad fin", optimist: 2, probable: 4, pessimist: 6 },
-  ];
+  const activities: Activity[] = [];
 
   return (
     <List
