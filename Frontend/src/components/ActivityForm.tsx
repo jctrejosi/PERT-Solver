@@ -24,13 +24,13 @@ export function ActivityForm({
   activitiesList = ["A", "B"],
   activitySelected = {
     id: {} as number,
-    acceleration: undefined,
-    accelerationCost: undefined,
+    acceleration: undefined as number | undefined,
+    accelerationCost: undefined as number | undefined,
     name: "",
-    optimist: undefined,
-    probable: {} as number,
-    pessimist: undefined,
-    cost: {} as number,
+    optimist: undefined as number | undefined,
+    probable: 0,
+    pessimist: undefined as number | undefined,
+    cost: 0,
     dependencies: [],
   },
 }: ActivityFormProps) {
@@ -102,15 +102,6 @@ export function ActivityForm({
   const handleChangeDependencie = () => {};
 
   const handleSubmit = () => {
-    console.log(
-      activity.pessimist &&
-        typeof activity.pessimist == "object" &&
-        activity.optimist &&
-        typeof activity.optimist != "object",
-      activity.pessimist,
-      activity.optimist
-    );
-
     const newErrors = {
       name: activity.name == "",
       cost: activity.cost === undefined || typeof activity.cost == "object",
