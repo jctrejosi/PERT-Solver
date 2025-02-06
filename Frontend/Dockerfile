@@ -1,11 +1,11 @@
 # Usa una imagen base de Node.js
-FROM node:22
-
-# Copia los archivos de configuración primero para aprovechar la caché
-COPY package.json package-lock.json tsconfig.json ./
+FROM node:21
 
 # Establece el directorio de trabajo dentro del contenedor
 WORKDIR /app
+
+# Copia los archivos de configuración primero para aprovechar la caché
+COPY package.json package-lock.json tsconfig.json ./
 
 # Instala dependencias
 RUN npm install
