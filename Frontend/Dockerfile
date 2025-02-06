@@ -2,7 +2,7 @@
 FROM node:22
 
 # Configurar el directorio de trabajo dentro del contenedor
-WORKDIR /app
+WORKDIR ./Frontend
 
 # Copiar package.json e instalar dependencias
 COPY package.json ./
