@@ -4,19 +4,29 @@ FROM node:22
 # Establece el directorio de trabajo en el contenedor
 WORKDIR /app
 
-# Copia el resto del código del proyecto
-COPY . .
+# Copia el package.json y el pnpm-lock.yaml
+COPY package.json ./
 
 # Instala pnpm y establece la versión deseada
 RUN npm install -g pnpm@9.15.4
 
+# Configura el directorio global de binarios y lo agrega al PATH
+ENV PNPM_HOME /usr/local/lib/pnpm
+ENV PATH $PNPM_HOME:$PATH
+
+# Crea el directorio global de binarios si no existe
+RUN mkdir -p $PNPM_HOME
+
 # Usa pnpm para instalar las dependencias
-RUN pnpm install
+RUN pnpm install --no-frozen-lockfile
+
+# Copia el resto del código del proyecto
+COPY . .
 
 # Construye el proyecto con pnpm
 RUN pnpm run build
 
-# Instala el paquete global `serve` para servir la aplicación
+# Instala el paquete global `serve`
 RUN pnpm add -g serve
 
 # Expone el puerto 3000
