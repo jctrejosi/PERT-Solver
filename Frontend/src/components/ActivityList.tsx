@@ -31,6 +31,7 @@ export function ActivityList({
         paddingRight: 5,
         scrollbarWidth: "thin",
         width: "100%",
+        boxSizing: "border-box",
       }}
     >
       {activities.map((activity, index) => (

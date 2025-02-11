@@ -1,3 +1,4 @@
+import { Paper } from "@mui/material";
 import { ReactFlow, Background, Edge, Node, Position } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import dagre from "dagre";
@@ -25,7 +26,7 @@ const actividades: { id: string; predecesoras: string[] }[] = [
 // Configurar Dagre.js para calcular las posiciones
 const getLayoutedElements = (nodes: Node[], edges: Edge[]) => {
   const g = new dagre.graphlib.Graph();
-  g.setGraph({ rankdir: "LR", nodesep: 50, ranksep: 70 }); // "LE" = Left-Right (de izquierda a derecha)
+  g.setGraph({ rankdir: "LR", nodesep: 40, ranksep: 70 }); // "LE" = Left-Right (de izquierda a derecha)
   g.setDefaultEdgeLabel(() => ({}));
 
   nodes.forEach((node) => g.setNode(node.id, { width: 100, height: 50 }));
@@ -46,13 +47,11 @@ const initialNodes: Node[] = actividades.map((actividad) => ({
   data: { label: actividad.id },
   position: { x: 0, y: 0 }, // Dagre ajustará la posición
   style: {
-    width: 50,
-    height: 50,
-    background: "#1E88E5",
-    color: "#fff",
+    width: "auto",
     textAlign: "center",
-    borderRadius: "50%",
-    fontSize: "18px",
+    borderRadius: "3rem",
+    fontSize: "24px",
+    fontWeight: "bold",
   },
   sourcePosition: Position.Right,
   targetPosition: Position.Left,
@@ -73,10 +72,15 @@ const nodes = getLayoutedElements(initialNodes, initialEdges);
 
 export default function GraphView() {
   return (
-    <div style={{ width: "100%", height: "50vh" }}>
-      <ReactFlow nodes={nodes} edges={initialEdges} fitView>
+    <Paper style={{ height: "14rem" }}>
+      <ReactFlow
+        nodes={nodes}
+        edges={initialEdges}
+        proOptions={{ hideAttribution: true }}
+        fitView
+      >
         <Background />
       </ReactFlow>
-    </div>
+    </Paper>
   );
 }

@@ -56,11 +56,7 @@ export function Home() {
               onDeleteActivity={handleDeleteActivity}
             />
           </Grid2>
-          <Grid2
-            sx={{ height: "calc(100% - 1rem)", overflowY: "auto", flex: 2 }}
-          >
-            <ReportsPanel />
-          </Grid2>
+          <ReportsPanel />
         </Grid2>
       </Container>
     </HomeContainer>
