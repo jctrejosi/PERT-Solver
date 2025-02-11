@@ -1,5 +1,5 @@
-import { Grid2, Typography } from "@mui/material";
-import GraphView from "@components/GraphView";
+import { Grid2, Typography, Box } from "@mui/material";
+import { GraphView } from "@components/GraphView";
 import { ReactFlowProvider } from "@xyflow/react";
 
 export function ReportsPanel() {
@@ -16,10 +16,11 @@ export function ReportsPanel() {
         borderLeft: `.1rem solid ${theme.palette.divider}`,
       })}
     >
-      <ReactFlowProvider>
-        <GraphView />
-      </ReactFlowProvider>
-      {/* Aquí iría el componente del gráfico de red PERT */}
+      <Box sx={{ height: 400 /* Ajusta el valor según tus necesidades */ }}>
+        <ReactFlowProvider>
+          <GraphView />
+        </ReactFlowProvider>
+      </Box>
       <Typography variant="h6">Gráfico de Distribución de Tiempos</Typography>
       {/* Aquí iría el componente del gráfico de distribución de tiempos */}
       <Typography variant="h6">Tabla de Resultados</Typography>
