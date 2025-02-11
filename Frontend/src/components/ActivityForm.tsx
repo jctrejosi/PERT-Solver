@@ -24,7 +24,7 @@ export type ActivityFormProps = {
   onAddActivity?: (activity: Activity) => void;
 };
 
-export function ActivityForm({
+export const ActivityForm = ({
   activitiesSelectedDefault = [],
   activitySelected = {
     acceleration: undefined as number | undefined,
@@ -37,7 +37,7 @@ export function ActivityForm({
     dependencies: [],
   },
   onAddActivity = () => {},
-}: ActivityFormProps) {
+}: ActivityFormProps) => {
   const [activity, setActivity] = useState({} as Activity);
 
   const [errors, setErrors] = useState({
@@ -389,4 +389,4 @@ export function ActivityForm({
       </Modal>
     </div>
   );
-}
+};
