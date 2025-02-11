@@ -1,4 +1,3 @@
-import React from "react";
 import { ReactFlow } from "@xyflow/react";
 
 import "@xyflow/react/dist/style.css";
@@ -9,7 +8,7 @@ const initialNodes = [
 ];
 const initialEdges = [{ id: "e1-2", source: "1", target: "2" }];
 
-export default function App() {
+export default function GraphView() {
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
       <ReactFlow nodes={initialNodes} edges={initialEdges} />

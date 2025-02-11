@@ -5,7 +5,7 @@ import Grid2 from "@mui/material/Grid2";
 import { Navbar } from "../components/Navbar";
 import { ActivityForm } from "../components/ActivityForm";
 import { ActivityList } from "../components/ActivityList";
-import { ReportsPanel } from "../components/ReportsPanel";
+import { ReportsPanel } from "./modules/ReportsPanel";
 import { Activity } from "../@types/core";
 
 export function Home() {
