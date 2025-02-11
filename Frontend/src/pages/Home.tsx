@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { HomeContainer } from "../styles/AppStyles";
 import { Container } from "@mui/material";
 import Grid2 from "@mui/material/Grid2";
-import { Navbar } from "../components/Navbar";
+import { Navbar } from "../layouts/Navbar";
 import { ActivityForm } from "../components/ActivityForm";
 import { ActivityList } from "../components/ActivityList";
 import { ReportsPanel } from "./modules/ReportsPanel";
@@ -23,42 +22,39 @@ export function Home() {
   };
 
   return (
-    <HomeContainer>
+    <Grid2
+      container
+      spacing={2}
+      style={{ height: "100%", width: "100%", overflow: "hidden" }}
+    >
       <Navbar />
       <Container
-        maxWidth="xl"
-        style={{ flex: 1, display: "flex", padding: 0, width: "100%" }}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          height: "calc(100%-6.4rem)",
+          overflowY: "auto",
+          pr: 2,
+          width: "17rem",
+          pl: 2,
+        }}
       >
-        <Grid2 container spacing={2} style={{ height: "100%", width: "100%" }}>
-          <Grid2
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              height: "100%",
-              overflowY: "auto",
-              pr: 2,
-              width: "17rem",
-              pl: 2,
-            }}
-          >
-            <ActivityForm
-              activitiesSelectedDefault={activities.map(
-                (activity) => activity.name
-              )}
-              activitySelected={activitySelected}
-              onAddActivity={handleAddActivity}
-            />
-            <ActivityList
-              activities={activities}
-              onEditActivity={(activity) => {
-                setActivitySelected(activity);
-              }}
-              onDeleteActivity={handleDeleteActivity}
-            />
-          </Grid2>
-          <ReportsPanel />
-        </Grid2>
+        <ActivityForm
+          activitiesSelectedDefault={activities.map(
+            (activity) => activity.name
+          )}
+          activitySelected={activitySelected}
+          onAddActivity={handleAddActivity}
+        />
+        <ActivityList
+          activities={activities}
+          onEditActivity={(activity) => {
+            setActivitySelected(activity);
+          }}
+          onDeleteActivity={handleDeleteActivity}
+        />
       </Container>
-    </HomeContainer>
+      <ReportsPanel />
+    </Grid2>
   );
 }
