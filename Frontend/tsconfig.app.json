@@ -31,7 +31,13 @@
       ],
       "@utils/*": [
         "src/utils/*"
-      ]
+      ],
+      "@customTypes/*": [
+        "src/types/*"
+      ],
+      "@layouts/*": [
+        "src/layouts/*"
+      ],
     }
   },
   "include": [

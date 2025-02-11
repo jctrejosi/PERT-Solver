@@ -24,16 +24,5 @@ export default tseslint.config(
         { allowConstantExport: true },
       ],
     },
-    settings: {
-      'import/resolver': {
-        alias: {
-          map: [
-            ['@components', './src/components'],
-            ['@utils', './src/utils']
-          ],
-          extensions: ['.js', '.jsx', '.ts', '.tsx']
-        }
-      }
-    }
   },
 )

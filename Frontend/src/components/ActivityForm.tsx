@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import { Activity } from "../@types/core";
+import { Activity } from "../types/core";
 
 export type ActivityFormProps = {
   activitiesSelectedDefault?: string[];

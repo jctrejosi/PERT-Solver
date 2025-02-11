@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Container } from "@mui/material";
 import Grid2 from "@mui/material/Grid2";
-import { Navbar } from "../layouts/Navbar";
-import { ActivityForm } from "../components/ActivityForm";
-import { ActivityList } from "../components/ActivityList";
+import { Navbar } from "@layouts/Navbar";
+import { ActivityForm } from "@components/ActivityForm";
+import { ActivityList } from "@components/ActivityList";
 import { ReportsPanel } from "./modules/ReportsPanel";
-import { Activity } from "../@types/core";
+import { Activity } from "@customTypes/core";
 
 export function Home() {
   const [activitySelected, setActivitySelected] = useState({} as Activity);
