@@ -1,5 +1,5 @@
 import { Typography, Box } from "@mui/material";
-import { GraphView } from "@components/GraphView";
+import { GraphView } from "./components/GraphView";
 import { ReactFlowProvider } from "@xyflow/react";
 import { useAppSelector } from "@store/hooks";
 import { GetStateHome } from "../../slice";
@@ -14,22 +14,15 @@ export function ReportsPanel() {
         display: "flex",
         flexDirection: "column",
         height: "100%",
-        overflowY: "auto", // Habilita scroll en todo el ReportsPanel
+        overflowY: "auto",
       }}
     >
-      {/* Grafo con alto fijo */}
-      <Box sx={{ height: "20rem", flexShrink: 0 }}>
+      <Box sx={{ height: "20rem" }}>
         <ReactFlowProvider>
           <GraphView activities={STATE.activities} />
         </ReactFlowProvider>
       </Box>
-
-      {/* Contenedor con scroll si crece */}
-      <Box
-        sx={{
-          flex: 1, // Ocupa el espacio restante// Scroll en el contenido restante
-        }}
-      >
+      <Box>
         <Typography variant="h6">Tabla de varianzas</Typography>
         <ActivitiesTable />
         <Typography variant="h6">Tabla de Resultados</Typography>
