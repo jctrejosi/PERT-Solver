@@ -15,18 +15,21 @@ export function ReportsPanel() {
         flexDirection: "column",
         height: "100%",
         overflowY: "auto",
+        gap: 2,
+        scrollbarWidth: "thin",
+        padding: "0 1rem",
       }}
     >
-      <Box sx={{ height: "20rem" }}>
+      <Typography variant="h6">Grafo de rutas</Typography>
+      <Box sx={{ height: "20rem", flexShrink: 0 }}>
         <ReactFlowProvider>
           <GraphView activities={STATE.activities} />
         </ReactFlowProvider>
       </Box>
-      <Box>
+      <Box sx={{ flex: 1, display: "flex", flexDirection: "column", gap: 2 }}>
+        <Typography variant="h6">Lista de rutas</Typography>
         <Typography variant="h6">Tabla de varianzas</Typography>
         <ActivitiesTable />
-        <Typography variant="h6">Tabla de Resultados</Typography>
-        {/* Aquí iría la tabla de resultados */}
       </Box>
     </Box>
   );

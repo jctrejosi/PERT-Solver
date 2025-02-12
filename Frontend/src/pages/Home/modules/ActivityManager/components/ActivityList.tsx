@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { Activity } from "../types/core";
+import { Activity } from "@customTypes/core";
 
 export type ActivityListProps = {
   activities?: Activity[];

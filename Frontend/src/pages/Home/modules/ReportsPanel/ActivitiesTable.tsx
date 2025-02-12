@@ -16,14 +16,10 @@ export function ActivitiesTable() {
       <Table aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell sx={{ width: "22%" }} align="left">
-              Nombre
-            </TableCell>
-            <TableCell sx={{ width: "22%" }} align="left">
-              Precedentes
-            </TableCell>
-            <TableCell sx={{ width: "22%" }}>Tiempo Promedio</TableCell>
-            <TableCell sx={{ width: "22%" }}>Varianza</TableCell>
+            <TableCell align="left">Nombre</TableCell>
+            <TableCell align="left">Precedentes</TableCell>
+            <TableCell>Tiempo Promedio</TableCell>
+            <TableCell>Varianza</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

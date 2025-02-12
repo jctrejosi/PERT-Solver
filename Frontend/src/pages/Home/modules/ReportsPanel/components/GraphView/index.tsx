@@ -77,7 +77,7 @@ export function GraphView({ activities }: GraphViewProps) {
   }, [activities, fitView]); // Se ejecuta cada vez que `activities` cambia
 
   return (
-    <Paper style={{ height: "100%" }}>
+    <Paper style={{ height: "100%" }} elevation={3}>
       <ReactFlow
         nodes={nodes}
         edges={edges}

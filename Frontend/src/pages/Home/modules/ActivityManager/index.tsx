@@ -4,7 +4,7 @@ import { ActionsHome, GetStateHome } from "../../slice";
 import { ActivityFormModal } from "./components/ActivityFormModal";
 import { ActivityList } from "./components/ActivityList";
 import { useState } from "react";
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import { ApiCalculatePert } from "../../services/calculatePert";
 
@@ -77,6 +77,7 @@ export function ActivityManager() {
         activitySelected={activitySelected}
         onAddActivity={handleAddActivity}
       />
+      <Typography variant="body1">Lista de actividades</Typography>
       <ActivityList
         activities={STATE.activities}
         onEditActivity={(activity) => {
