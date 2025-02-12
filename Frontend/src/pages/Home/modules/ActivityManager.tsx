@@ -53,7 +53,7 @@ export function ActivityManager() {
       </Button>
       <TextField
         label="Tiempo de término"
-        variant="standard"
+        variant="filled"
         type="number"
         size="small"
         fullWidth
