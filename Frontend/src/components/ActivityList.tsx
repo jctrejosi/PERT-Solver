@@ -51,11 +51,13 @@ export function ActivityList({
               <>
                 {activity.name}
                 <br />
-                <Typography variant="body2" color="text.secondary">
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  component="span"
+                >
                   (
-                  {activity.dependencies
-                    ? activity.dependencies.join(", ")
-                    : " - "}
+                  {activity.precedents ? activity.precedents.join(", ") : " - "}
                   )
                 </Typography>
               </>
@@ -66,7 +68,11 @@ export function ActivityList({
                   activity.probable
                 }${activity.pessimist ? " / " + activity.pessimist : ""} T`}
                 <br />
-                <Typography variant="body2" color="text.secondary">
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  component="span"
+                >
                   Costo: {activity.cost ?? "N/A"}
                 </Typography>
               </>

@@ -1,5 +1,13 @@
+import { useEffect, useState } from "react";
 import { Paper } from "@mui/material";
-import { ReactFlow, Background, Edge, Node, Position } from "@xyflow/react";
+import {
+  ReactFlow,
+  Background,
+  Edge,
+  Node,
+  Position,
+  useReactFlow,
+} from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import dagre from "dagre";
 import { CustomNode } from "./CustomNode";
@@ -10,6 +18,10 @@ export type GraphViewProps = {
 };
 
 export function GraphView({ activities }: GraphViewProps) {
+  const { fitView } = useReactFlow(); // Hook para controlar ReactFlow
+  const [nodes, setNodes] = useState<Node[]>([]);
+  const [edges, setEdges] = useState<Edge[]>([]);
+
   // Configurar Dagre.js para calcular las posiciones
   const getLayoutedElements = (nodes: Node[], edges: Edge[]) => {
     const g = new dagre.graphlib.Graph();
@@ -27,39 +39,47 @@ export function GraphView({ activities }: GraphViewProps) {
     });
   };
 
-  // Generar nodos automáticamente
-  const initialNodes: Node[] = activities.map((activity) => ({
-    id: activity.name,
-    type: "custom", // <- Debe coincidir con el key en nodeTypes
-    position: { x: 0, y: 0 },
-    data: {
-      label: activity.name,
-      tiempo: activity.probable,
-      costo: activity.cost,
-    },
-    sourcePosition: Position.Right,
-    targetPosition: Position.Left,
-  }));
+  useEffect(() => {
+    // Generar nodos
+    const updatedNodes: Node[] = activities.map((activity) => ({
+      id: activity.name,
+      type: "custom",
+      position: { x: 0, y: 0 }, // Se actualizará con Dagre
+      data: {
+        label: activity.name,
+        tiempo: activity.probable,
+        costo: activity.cost,
+      },
+      sourcePosition: Position.Right,
+      targetPosition: Position.Left,
+    }));
 
-  // Generar aristas automáticamente
-  const initialEdges: Edge[] = activities.flatMap(
-    (activity) =>
-      activity.precedents?.map((predecessor) => ({
-        id: `edge-${predecessor}-${activity.name}`,
-        source: predecessor,
-        target: predecessor,
-        animated: true,
-      })) || []
-  );
+    // Generar aristas
+    const updatedEdges: Edge[] = activities.flatMap(
+      (activity) =>
+        activity.precedents?.map((predecessor) => ({
+          id: `edge-${predecessor}-${activity.name}`,
+          source: predecessor,
+          target: activity.name,
+          animated: true,
+        })) || []
+    );
 
-  // Aplicar el layout automático
-  const nodes = getLayoutedElements(initialNodes, initialEdges);
+    // Aplicar layout
+    const layoutedNodes = getLayoutedElements(updatedNodes, updatedEdges);
+
+    setNodes(layoutedNodes);
+    setEdges(updatedEdges);
+
+    // 🔹 Ajustar el zoom automáticamente al cambiar actividades
+    setTimeout(() => fitView({ duration: 500, padding: 0.2 }), 100);
+  }, [activities, fitView]); // Se ejecuta cada vez que `activities` cambia
 
   return (
     <Paper style={{ height: "100%" }}>
       <ReactFlow
         nodes={nodes}
-        edges={initialEdges}
+        edges={edges}
         proOptions={{ hideAttribution: true }}
         fitView
         nodeTypes={{ custom: CustomNode }}

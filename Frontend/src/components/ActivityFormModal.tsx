@@ -19,26 +19,26 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { Activity } from "../types/core";
 
 export type ActivityFormProps = {
-  activitiesSelectedDefault?: string[];
+  predecessorActivities?: string[];
   activitySelected?: Activity;
   onAddActivity?: (activity: Activity) => void;
 };
 
-export const ActivityForm = ({
-  activitiesSelectedDefault = [],
+export const ActivityFormModal = ({
+  predecessorActivities = [],
   activitySelected = {
-    acceleration: undefined as number | undefined,
-    accelerationCost: undefined as number | undefined,
+    acceleration: undefined,
+    accelerationCost: undefined,
     name: "",
-    optimist: undefined as number | undefined,
+    optimist: undefined,
     probable: 0,
-    pessimist: undefined as number | undefined,
+    pessimist: undefined,
     cost: 0,
-    dependencies: [],
+    precedents: [],
   },
   onAddActivity = () => {},
 }: ActivityFormProps) => {
-  const [activity, setActivity] = useState({} as Activity);
+  const [activity, setActivity] = useState<Activity>(activitySelected);
 
   const [errors, setErrors] = useState({
     name: false,
@@ -52,7 +52,7 @@ export const ActivityForm = ({
 
   const [open, setOpen] = useState(false);
   const [valueSelect, setValueSelect] = useState<string[]>(
-    activitiesSelectedDefault
+    predecessorActivities || []
   );
 
   const handleChange = (
@@ -113,7 +113,7 @@ export const ActivityForm = ({
     const newValue = typeof value === "string" ? value.split(",") : value;
     setValueSelect(newValue);
 
-    setActivity({ ...activity, dependencies: newValue });
+    setActivity({ ...activity, precedents: newValue });
   };
 
   const handleSubmit = () => {
@@ -155,11 +155,6 @@ export const ActivityForm = ({
       newErrors.acceleration ||
       newErrors.accelerationCost
     ) {
-      return;
-    }
-
-    if (activitiesSelectedDefault.includes(activity.name)) {
-      setErrors({ ...newErrors, name: true });
       return;
     }
 
@@ -237,7 +232,7 @@ export const ActivityForm = ({
                 label="Nombre de la actividad"
                 name="name"
                 size="small"
-                value={activity.name}
+                value={activity.name || ""}
                 onChange={handleChange}
                 fullWidth
                 error={errors.name}
@@ -247,19 +242,19 @@ export const ActivityForm = ({
               />
               <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">
-                  Dependencia (De dónde procede la actividad)
+                  Dependencias
                 </InputLabel>
                 <Select<string[]>
                   size="medium"
                   multiple
                   id="demo-simple-select"
-                  value={valueSelect}
+                  value={valueSelect || []}
                   labelId="demo-simple-select-label"
                   label="Dependencias"
                   input={<OutlinedInput label="Name" />}
                   onChange={handleChangeDependencie}
                 >
-                  {activitiesSelectedDefault.map((name) => (
+                  {predecessorActivities.map((name) => (
                     <MenuItem key={name} value={name}>
                       <ListItemText primary={name} />
                     </MenuItem>
@@ -282,7 +277,7 @@ export const ActivityForm = ({
                     label="Optimista"
                     name="optimist"
                     type="number"
-                    value={activity.optimist}
+                    value={activity.optimist || ""}
                     onChange={handleChange}
                     error={errors.optimist}
                     helperText={
@@ -302,7 +297,7 @@ export const ActivityForm = ({
                     label="Probable"
                     type="number"
                     name="probable"
-                    value={activity.probable}
+                    value={activity.probable || ""}
                     onChange={handleChange}
                     error={errors.probable}
                     helperText={
@@ -322,7 +317,7 @@ export const ActivityForm = ({
                     label="Pesimista"
                     type="number"
                     name="pessimist"
-                    value={activity.pessimist}
+                    value={activity.pessimist || ""}
                     onChange={handleChange}
                     error={errors.pessimist}
                     helperText={
@@ -337,7 +332,7 @@ export const ActivityForm = ({
                   type="number"
                   name="cost"
                   size="small"
-                  value={activity.cost}
+                  value={activity.cost || ""}
                   onChange={handleChange}
                   fullWidth
                   error={errors.cost}
@@ -350,7 +345,7 @@ export const ActivityForm = ({
                   type="number"
                   name="acceleration"
                   size="small"
-                  value={activity.acceleration}
+                  value={activity.acceleration || ""}
                   onChange={handleChange}
                   fullWidth
                   error={errors.acceleration}
@@ -365,7 +360,7 @@ export const ActivityForm = ({
                   type="number"
                   name="accelerationCost"
                   size="small"
-                  value={activity.accelerationCost}
+                  value={activity.accelerationCost || ""}
                   onChange={handleChange}
                   fullWidth
                   error={errors.accelerationCost}

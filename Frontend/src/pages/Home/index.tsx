@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Container } from "@mui/material";
 import Grid2 from "@mui/material/Grid2";
 import { Navbar } from "@layouts/Navbar";
-import { ActivityForm } from "@components/ActivityForm";
+import { ActivityFormModal } from "@components/ActivityFormModal";
 import { ActivityList } from "@components/ActivityList";
 import { ReportsPanel } from "./modules/ReportsPanel";
 import { Activity } from "@customTypes/core";
@@ -13,7 +13,16 @@ export function Home() {
   const disptach = useAppDispatch();
   const STATE = useAppSelector(GetStateHome);
 
-  const [activitySelected, setActivitySelected] = useState({} as Activity);
+  const [activitySelected, setActivitySelected] = useState<Activity>({
+    acceleration: undefined,
+    accelerationCost: undefined,
+    name: "",
+    optimist: undefined,
+    probable: 0,
+    pessimist: undefined,
+    cost: 0,
+    precedents: [],
+  });
 
   const handleAddActivity = (newActivity: Activity) => {
     disptach(ActionsHome.SetActivities([...STATE.activities, newActivity]));
@@ -45,10 +54,10 @@ export function Home() {
           pl: 2,
         }}
       >
-        <ActivityForm
-          activitiesSelectedDefault={STATE.activities.map(
-            (activity) => activity.name
-          )}
+        <ActivityFormModal
+          predecessorActivities={
+            STATE.activities.map((activity) => activity.name) || []
+          }
           activitySelected={activitySelected}
           onAddActivity={handleAddActivity}
         />
