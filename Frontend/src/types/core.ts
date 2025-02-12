@@ -1,6 +1,6 @@
 export type Activity = {
   name: string;
-  dependencies?: string[];
+  precedents?: string[];
   cost: number;
   acceleration?: number;
   accelerationCost?: number;

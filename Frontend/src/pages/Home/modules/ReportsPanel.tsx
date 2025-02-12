@@ -1,8 +1,12 @@
 import { Grid2, Typography, Box } from "@mui/material";
 import { GraphView } from "@components/GraphView";
 import { ReactFlowProvider } from "@xyflow/react";
+import { useAppSelector } from "@store/hooks";
+import { GetStateHome } from "../slice";
 
 export function ReportsPanel() {
+  const STATE = useAppSelector(GetStateHome);
+
   return (
     <Grid2
       sx={(theme) => ({
@@ -16,9 +20,9 @@ export function ReportsPanel() {
         borderLeft: `.1rem solid ${theme.palette.divider}`,
       })}
     >
-      <Box sx={{ height: 400 /* Ajusta el valor según tus necesidades */ }}>
+      <Box sx={{ height: "15rem" }}>
         <ReactFlowProvider>
-          <GraphView />
+          <GraphView activities={STATE.activities} />
         </ReactFlowProvider>
       </Box>
       <Typography variant="h6">Gráfico de Distribución de Tiempos</Typography>

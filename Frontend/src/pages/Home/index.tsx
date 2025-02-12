@@ -6,18 +6,24 @@ import { ActivityForm } from "@components/ActivityForm";
 import { ActivityList } from "@components/ActivityList";
 import { ReportsPanel } from "./modules/ReportsPanel";
 import { Activity } from "@customTypes/core";
+import { useAppDispatch, useAppSelector } from "@store/hooks";
+import { ActionsHome, GetStateHome } from "./slice";
 
 export function Home() {
+  const disptach = useAppDispatch();
+  const STATE = useAppSelector(GetStateHome);
+
   const [activitySelected, setActivitySelected] = useState({} as Activity);
-  const [activities, setActivities] = useState<Activity[]>([]);
 
   const handleAddActivity = (newActivity: Activity) => {
-    setActivities((prevActivities) => [...prevActivities, newActivity]);
+    disptach(ActionsHome.SetActivities([...STATE.activities, newActivity]));
   };
 
   const handleDeleteActivity = (nameActivity: string) => {
-    setActivities((prevActivities) =>
-      prevActivities.filter((activity) => activity.name !== nameActivity)
+    disptach(
+      ActionsHome.SetActivities(
+        STATE.activities.filter((activity) => activity.name !== nameActivity)
+      )
     );
   };
 
@@ -40,14 +46,14 @@ export function Home() {
         }}
       >
         <ActivityForm
-          activitiesSelectedDefault={activities.map(
+          activitiesSelectedDefault={STATE.activities.map(
             (activity) => activity.name
           )}
           activitySelected={activitySelected}
           onAddActivity={handleAddActivity}
         />
         <ActivityList
-          activities={activities}
+          activities={STATE.activities}
           onEditActivity={(activity) => {
             setActivitySelected(activity);
           }}

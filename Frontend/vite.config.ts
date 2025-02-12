@@ -10,6 +10,9 @@ export default defineConfig({
       "@utils": resolve(__dirname, "src/utils"),
       "@customTypes": resolve(__dirname, "src/types"),
       "@layouts": resolve(__dirname, "src/layouts"),
+      "@pages": resolve(__dirname, "src/pages"),
+      "@styles": resolve(__dirname, "src/styles"),
+      "@store": resolve(__dirname, "src/store"),
     },
   },
 });
