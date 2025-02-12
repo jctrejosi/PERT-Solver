@@ -1,16 +1,14 @@
 from flask import Blueprint, jsonify, request
-import pandas as pd
-from .models import Activity, PERTCalculator
+from .models import PERTCalculator
+from .schemas import PERTRequest
 
 bp = Blueprint('main', __name__)
 
 @bp.route('/api/v1.0/calculatePert', methods=['POST'])
 def calculate_pert():
     try:
-        data = request.json
-        activities = data['activities']
-
-        pert_calculator = PERTCalculator(activities)
+        pert_request = PERTRequest(**request.json)
+        pert_calculator = PERTCalculator(pert_request.activities, pert_request.expected_time)
 
         routes = pert_calculator.calculate_routes()
         table = pert_calculator.calculate_table()

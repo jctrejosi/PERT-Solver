@@ -8,3 +8,16 @@ export type Activity = {
   probable: number;
   pessimist?: number;
 };
+
+export type Route = {
+  completion_time: number;
+  critical: boolean;
+  route: string[];
+};
+
+export type TableVariance = {
+  average_time: number;
+  name: string;
+  precedents: [];
+  variance: number;
+};

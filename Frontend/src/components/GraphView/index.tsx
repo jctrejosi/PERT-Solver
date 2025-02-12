@@ -62,6 +62,7 @@ export function GraphView({ activities }: GraphViewProps) {
           source: predecessor,
           target: activity.name,
           animated: true,
+          style: { stroke: "#000", strokeWidth: 3 }, // Estilo personalizado para las aristas
         })) || []
     );
 

@@ -5,11 +5,7 @@ import { ActivityManager } from "./modules/ActivityManager";
 
 export function Home() {
   return (
-    <Grid2
-      container
-      spacing={2}
-      style={{ height: "100%", width: "100%", overflow: "hidden" }}
-    >
+    <Grid2 container spacing={2} style={{ height: "100%", width: "100%" }}>
       <Navbar />
       <Container
         sx={{
@@ -25,16 +21,16 @@ export function Home() {
         <ActivityManager />
       </Container>
       <Container
-        sx={(theme) => ({
-          padding: 2,
-          gap: 4,
+        sx={{
           display: "flex",
           flexDirection: "column",
-          height: "calc(100% - 1rem)",
+          height: "calc(100% - 6.4rem)",
           overflowY: "auto",
+          width: "calc(100% - 17rem)",
           flex: 2,
-          borderLeft: `.1rem solid ${theme.palette.divider}`,
-        })}
+          paddingRight: 0,
+          padding: 0,
+        }}
       >
         <ReportsPanel />
       </Container>

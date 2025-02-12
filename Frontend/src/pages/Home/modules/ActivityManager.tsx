@@ -36,8 +36,17 @@ export function ActivityManager() {
   };
 
   const handleSendCalculatePert = () => {
-    ApiCalculatePert({ activities: STATE.activities });
+    ApiCalculatePert(
+      {
+        activities: STATE.activities,
+        expected_time: STATE.expected_time,
+      },
+      disptach
+    );
   };
+
+  const handleChangeExpectedTime = (e: React.ChangeEvent<HTMLInputElement>) =>
+    disptach(ActionsHome.SetExpectedTime(Number(e.target.value)));
 
   return (
     <>
@@ -52,13 +61,14 @@ export function ActivityManager() {
         PERT
       </Button>
       <TextField
-        label="Tiempo de término"
+        label="Tiempo esperado"
         variant="filled"
         type="number"
         size="small"
         fullWidth
+        value={STATE.expected_time}
         style={{ marginBottom: "1rem" }}
-        onChange={() => {}}
+        onChange={handleChangeExpectedTime}
       />
       <ActivityFormModal
         predecessorActivities={
