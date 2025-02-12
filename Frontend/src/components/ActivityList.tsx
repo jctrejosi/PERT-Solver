@@ -64,16 +64,18 @@ export function ActivityList({
             }
             secondary={
               <>
-                {`${activity.optimist ? activity.optimist + " / " : ""}${
-                  activity.probable
-                }${activity.pessimist ? " / " + activity.pessimist : ""} T`}
+                {`Tiempo: ${
+                  activity.optimist ? activity.optimist + " / " : ""
+                }${activity.probable}${
+                  activity.pessimist ? " / " + activity.pessimist : ""
+                }`}
                 <br />
                 <Typography
                   variant="body2"
                   color="text.secondary"
                   component="span"
                 >
-                  Costo: {activity.cost ?? "N/A"}
+                  ${activity.cost ?? "N/A"}
                 </Typography>
               </>
             }
