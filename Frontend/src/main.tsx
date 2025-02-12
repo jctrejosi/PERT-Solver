@@ -6,6 +6,9 @@ import "./styles/globalStyles.css";
 import theme from "./styles/themesMui";
 import { Provider } from "react-redux";
 import { store } from "./store";
+import { axiosConfiguration } from "@services/configurationAxios";
+
+axiosConfiguration();
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

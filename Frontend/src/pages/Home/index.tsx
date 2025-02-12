@@ -15,7 +15,7 @@ export function Home() {
         sx={{
           display: "flex",
           flexDirection: "column",
-          height: "calc(100%-6.4rem)",
+          height: "calc(100% - 6.4rem)",
           overflowY: "auto",
           pr: 2,
           width: "17rem",

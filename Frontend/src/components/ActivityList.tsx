@@ -26,7 +26,6 @@ export function ActivityList({
         overflowY: "auto",
         overflowX: "hidden",
         flexGrow: 1,
-        maxHeight: "calc(100vh - 8rem)",
         paddingTop: 0,
         paddingRight: 5,
         scrollbarWidth: "thin",

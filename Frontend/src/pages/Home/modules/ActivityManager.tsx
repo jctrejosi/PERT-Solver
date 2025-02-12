@@ -4,6 +4,9 @@ import { ActionsHome, GetStateHome } from "../slice";
 import { ActivityFormModal } from "@components/ActivityFormModal";
 import { ActivityList } from "@components/ActivityList";
 import { useState } from "react";
+import { Button, TextField } from "@mui/material";
+import SendIcon from "@mui/icons-material/Send";
+import { ApiCalculatePert } from "../services/calculatePert";
 
 export function ActivityManager() {
   const disptach = useAppDispatch();
@@ -32,8 +35,31 @@ export function ActivityManager() {
     );
   };
 
+  const handleSendCalculatePert = () => {
+    ApiCalculatePert({ activities: STATE.activities });
+  };
+
   return (
     <>
+      <Button
+        variant="contained"
+        color="success"
+        onClick={handleSendCalculatePert}
+        endIcon={<SendIcon />}
+        fullWidth
+        style={{ marginBottom: "1rem" }}
+      >
+        PERT
+      </Button>
+      <TextField
+        label="Tiempo de término"
+        variant="standard"
+        type="number"
+        size="small"
+        fullWidth
+        style={{ marginBottom: "1rem" }}
+        onChange={() => {}}
+      />
       <ActivityFormModal
         predecessorActivities={
           STATE.activities.map((activity) => activity.name) || []

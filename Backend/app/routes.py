@@ -4,18 +4,10 @@ import pandas as pd
 
 bp = Blueprint('main', __name__)
 
-@bp.route('/api/data', methods=['GET'])
-def get_data():
-    # Ejemplo de datos
-    data = {
-        'Actividad': ['A', 'B', 'C'],
-        'Optimista': [2, 3, 4],
-        'Pesimista': [6, 7, 8],
-        'Mas_Probable': [4, 5, 6],
-        'Porcentaje_Completado': [0.5, 0.3, 0.7],
-        'Costo_Real': [1000, 1500, 2000],
-        'Costo_Planeado': [800, 1200, 1600]
-    }
+@bp.route('/api/v1.0/calculatePert', methods=['POST'])
+def calculate_pert():
+    data = request.json
+    print(data)
     df = pd.DataFrame(data)
     df = calcular_pert(df)
     df = calcular_indicadores(df)
