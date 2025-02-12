@@ -14,7 +14,7 @@ export function ActivityManager() {
 
   const [activitySelected, setActivitySelected] = useState<Activity>({
     acceleration: undefined,
-    accelerationCost: undefined,
+    acceleration_cost: undefined,
     name: "",
     optimist: undefined,
     probable: 0,

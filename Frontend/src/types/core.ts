@@ -3,7 +3,7 @@ export type Activity = {
   precedents?: string[];
   cost: number;
   acceleration?: number;
-  accelerationCost?: number;
+  acceleration_cost?: number;
   optimist?: number;
   probable: number;
   pessimist?: number;

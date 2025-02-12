@@ -1,9 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../../store";
 import { Activity } from "@customTypes/core";
+import { exampleActivities } from "./Examples/activities";
 
 const initialState = {
-  activities: [] as Activity[],
+  activities: exampleActivities as Activity[],
 };
 
 export const homeSlice = createSlice({

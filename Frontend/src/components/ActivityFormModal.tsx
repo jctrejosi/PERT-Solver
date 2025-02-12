@@ -28,7 +28,7 @@ export const ActivityFormModal = ({
   predecessorActivities = [],
   activitySelected = {
     acceleration: undefined,
-    accelerationCost: undefined,
+    acceleration_cost: undefined,
     name: "",
     optimist: undefined,
     probable: 0,
@@ -47,7 +47,7 @@ export const ActivityFormModal = ({
     probable: false,
     pessimist: false,
     acceleration: false,
-    accelerationCost: false,
+    acceleration_cost: false,
   });
 
   const [open, setOpen] = useState(false);
@@ -89,9 +89,9 @@ export const ActivityFormModal = ({
         break;
       case "acceleration":
         parsedValue = value === "" ? undefined : Number(value);
-        parsedError = activity.accelerationCost !== undefined && value === "";
+        parsedError = activity.acceleration_cost !== undefined && value === "";
         break;
-      case "accelerationCost":
+      case "acceleration_cost":
         parsedValue = value === "" ? undefined : Number(value);
         parsedError = activity.acceleration !== undefined && value === "";
         break;
@@ -135,11 +135,11 @@ export const ActivityFormModal = ({
       acceleration:
         (activity.acceleration == undefined ||
           typeof activity.acceleration == "object") &&
-        activity.accelerationCost != undefined &&
-        typeof activity.accelerationCost != "object",
-      accelerationCost:
-        (activity.accelerationCost == undefined ||
-          typeof activity.accelerationCost == "object") &&
+        activity.acceleration_cost != undefined &&
+        typeof activity.acceleration_cost != "object",
+      acceleration_cost:
+        (activity.acceleration_cost == undefined ||
+          typeof activity.acceleration_cost == "object") &&
         activity.acceleration != undefined &&
         typeof activity.acceleration != "object",
     };
@@ -153,7 +153,7 @@ export const ActivityFormModal = ({
       newErrors.probable ||
       newErrors.pessimist ||
       newErrors.acceleration ||
-      newErrors.accelerationCost
+      newErrors.acceleration_cost
     ) {
       return;
     }
@@ -359,14 +359,16 @@ export const ActivityFormModal = ({
                   <TextField
                     label="Costo de aceleración"
                     type="number"
-                    name="accelerationCost"
+                    name="acceleration_cost"
                     size="small"
-                    value={activity.accelerationCost || ""}
+                    value={activity.acceleration_cost || ""}
                     onChange={handleChange}
                     fullWidth
-                    error={errors.accelerationCost}
+                    error={errors.acceleration_cost}
                     helperText={
-                      errors.accelerationCost ? "Este campo es obligatorio" : ""
+                      errors.acceleration_cost
+                        ? "Este campo es obligatorio"
+                        : ""
                     }
                   />
                 </Grid>
