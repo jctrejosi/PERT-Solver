@@ -1,41 +1,9 @@
-import { useState } from "react";
-import { Container } from "@mui/material";
-import Grid2 from "@mui/material/Grid2";
+import { Container, Grid2 } from "@mui/material";
 import { Navbar } from "@layouts/Navbar";
-import { ActivityFormModal } from "@components/ActivityFormModal";
-import { ActivityList } from "@components/ActivityList";
 import { ReportsPanel } from "./modules/ReportsPanel";
-import { Activity } from "@customTypes/core";
-import { useAppDispatch, useAppSelector } from "@store/hooks";
-import { ActionsHome, GetStateHome } from "./slice";
+import { ActivityManager } from "./modules/ActivityManager";
 
 export function Home() {
-  const disptach = useAppDispatch();
-  const STATE = useAppSelector(GetStateHome);
-
-  const [activitySelected, setActivitySelected] = useState<Activity>({
-    acceleration: undefined,
-    accelerationCost: undefined,
-    name: "",
-    optimist: undefined,
-    probable: 0,
-    pessimist: undefined,
-    cost: 0,
-    precedents: [],
-  });
-
-  const handleAddActivity = (newActivity: Activity) => {
-    disptach(ActionsHome.SetActivities([...STATE.activities, newActivity]));
-  };
-
-  const handleDeleteActivity = (nameActivity: string) => {
-    disptach(
-      ActionsHome.SetActivities(
-        STATE.activities.filter((activity) => activity.name !== nameActivity)
-      )
-    );
-  };
-
   return (
     <Grid2
       container
@@ -54,22 +22,22 @@ export function Home() {
           pl: 2,
         }}
       >
-        <ActivityFormModal
-          predecessorActivities={
-            STATE.activities.map((activity) => activity.name) || []
-          }
-          activitySelected={activitySelected}
-          onAddActivity={handleAddActivity}
-        />
-        <ActivityList
-          activities={STATE.activities}
-          onEditActivity={(activity) => {
-            setActivitySelected(activity);
-          }}
-          onDeleteActivity={handleDeleteActivity}
-        />
+        <ActivityManager />
       </Container>
-      <ReportsPanel />
+      <Container
+        sx={(theme) => ({
+          padding: 2,
+          gap: 4,
+          display: "flex",
+          flexDirection: "column",
+          height: "calc(100% - 1rem)",
+          overflowY: "auto",
+          flex: 2,
+          borderLeft: `.1rem solid ${theme.palette.divider}`,
+        })}
+      >
+        <ReportsPanel />
+      </Container>
     </Grid2>
   );
 }

@@ -182,206 +182,208 @@ export const ActivityFormModal = ({
       >
         Agregar Actividad
       </Button>
-      <Modal open={open} onClose={handleClose} style={{ height: "100%" }}>
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: 400,
-            bgcolor: "background.paper",
-            border: "2px solid #000",
-            boxShadow: 24,
-            p: 3,
-            maxHeight: "90vh",
-            overflowY: "auto",
-            "&::-webkit-scrollbar": {
-              width: "4px",
-            },
-            "&::-webkit-scrollbar-thumb": {
-              backgroundColor: "#888",
-              borderRadius: "2px",
-            },
-            "&::-webkit-scrollbar-thumb:hover": {
-              backgroundColor: "#555",
-            },
-          }}
-        >
+      {open && (
+        <Modal open={true} onClose={handleClose} style={{ height: "100%" }}>
           <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-            marginBottom={3}
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: 400,
+              bgcolor: "background.paper",
+              border: "2px solid #000",
+              boxShadow: 24,
+              p: 3,
+              maxHeight: "90vh",
+              overflowY: "auto",
+              "&::-webkit-scrollbar": {
+                width: "4px",
+              },
+              "&::-webkit-scrollbar-thumb": {
+                backgroundColor: "#888",
+                borderRadius: "2px",
+              },
+              "&::-webkit-scrollbar-thumb:hover": {
+                backgroundColor: "#555",
+              },
+            }}
           >
-            <Typography variant="h5" gutterBottom>
-              Edite los datos de la actividad
-            </Typography>
-            <Button
-              onClick={handleClose}
-              type="button"
-              style={{ minWidth: "auto" }}
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+              marginBottom={3}
             >
-              X
-            </Button>
+              <Typography variant="h5" gutterBottom>
+                Edite los datos de la actividad
+              </Typography>
+              <Button
+                onClick={handleClose}
+                type="button"
+                style={{ minWidth: "auto" }}
+              >
+                X
+              </Button>
+            </Box>
+            <Divider />
+            <form>
+              <Grid container spacing={1}>
+                <TextField
+                  label="Nombre de la actividad"
+                  name="name"
+                  size="small"
+                  value={activity.name || ""}
+                  onChange={handleChange}
+                  fullWidth
+                  error={errors.name}
+                  helperText={
+                    errors.name ? "Este campo es obligatorio e irrepetible" : ""
+                  }
+                />
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">
+                    Dependencias
+                  </InputLabel>
+                  <Select<string[]>
+                    size="medium"
+                    multiple
+                    id="demo-simple-select"
+                    value={valueSelect || []}
+                    labelId="demo-simple-select-label"
+                    label="Dependencias"
+                    input={<OutlinedInput label="Name" />}
+                    onChange={handleChangeDependencie}
+                  >
+                    {predecessorActivities.map((name) => (
+                      <MenuItem key={name} value={name}>
+                        <ListItemText primary={name} />
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                <p style={{ width: "100%", margin: 0, fontSize: "1rem" }}>
+                  Tiempos
+                </p>
+                <Grid container>
+                  <Grid size="grow">
+                    <TextField
+                      variant="filled"
+                      slotProps={{
+                        inputLabel: {
+                          shrink: true,
+                        },
+                      }}
+                      size="small"
+                      label="Optimista"
+                      name="optimist"
+                      type="number"
+                      value={activity.optimist || ""}
+                      onChange={handleChange}
+                      error={errors.optimist}
+                      helperText={
+                        errors.optimist ? "Este campo es obligatorio" : ""
+                      }
+                    />
+                  </Grid>
+                  <Grid size="grow">
+                    <TextField
+                      variant="filled"
+                      slotProps={{
+                        inputLabel: {
+                          shrink: true,
+                        },
+                      }}
+                      size="small"
+                      label="Probable"
+                      type="number"
+                      name="probable"
+                      value={activity.probable || ""}
+                      onChange={handleChange}
+                      error={errors.probable}
+                      helperText={
+                        errors.probable ? "Este campo es obligatorio" : ""
+                      }
+                    />
+                  </Grid>
+                  <Grid size="grow">
+                    <TextField
+                      variant="filled"
+                      slotProps={{
+                        inputLabel: {
+                          shrink: true,
+                        },
+                      }}
+                      size="small"
+                      label="Pesimista"
+                      type="number"
+                      name="pessimist"
+                      value={activity.pessimist || ""}
+                      onChange={handleChange}
+                      error={errors.pessimist}
+                      helperText={
+                        errors.pessimist ? "Este campo es obligatorio" : ""
+                      }
+                    />
+                  </Grid>
+                </Grid>
+                <Grid width="100%">
+                  <TextField
+                    label="Costo"
+                    type="number"
+                    name="cost"
+                    size="small"
+                    value={activity.cost || ""}
+                    onChange={handleChange}
+                    fullWidth
+                    error={errors.cost}
+                    helperText={errors.cost ? "Este campo es obligatorio" : ""}
+                  />
+                </Grid>
+                <Grid width="100%">
+                  <TextField
+                    label="Aceleración aplicable"
+                    type="number"
+                    name="acceleration"
+                    size="small"
+                    value={activity.acceleration || ""}
+                    onChange={handleChange}
+                    fullWidth
+                    error={errors.acceleration}
+                    helperText={
+                      errors.acceleration ? "Este campo es obligatorio" : ""
+                    }
+                  />
+                </Grid>
+                <Grid width="100%">
+                  <TextField
+                    label="Costo de aceleración"
+                    type="number"
+                    name="accelerationCost"
+                    size="small"
+                    value={activity.accelerationCost || ""}
+                    onChange={handleChange}
+                    fullWidth
+                    error={errors.accelerationCost}
+                    helperText={
+                      errors.accelerationCost ? "Este campo es obligatorio" : ""
+                    }
+                  />
+                </Grid>
+                <Grid width="100%">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleSubmit}
+                  >
+                    Agregar Actividad
+                  </Button>
+                </Grid>
+              </Grid>
+            </form>
           </Box>
-          <Divider />
-          <form>
-            <Grid container spacing={1}>
-              <TextField
-                label="Nombre de la actividad"
-                name="name"
-                size="small"
-                value={activity.name || ""}
-                onChange={handleChange}
-                fullWidth
-                error={errors.name}
-                helperText={
-                  errors.name ? "Este campo es obligatorio e irrepetible" : ""
-                }
-              />
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">
-                  Dependencias
-                </InputLabel>
-                <Select<string[]>
-                  size="medium"
-                  multiple
-                  id="demo-simple-select"
-                  value={valueSelect || []}
-                  labelId="demo-simple-select-label"
-                  label="Dependencias"
-                  input={<OutlinedInput label="Name" />}
-                  onChange={handleChangeDependencie}
-                >
-                  {predecessorActivities.map((name) => (
-                    <MenuItem key={name} value={name}>
-                      <ListItemText primary={name} />
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              <p style={{ width: "100%", margin: 0, fontSize: "1rem" }}>
-                Tiempos
-              </p>
-              <Grid container>
-                <Grid size="grow">
-                  <TextField
-                    variant="filled"
-                    slotProps={{
-                      inputLabel: {
-                        shrink: true,
-                      },
-                    }}
-                    size="small"
-                    label="Optimista"
-                    name="optimist"
-                    type="number"
-                    value={activity.optimist || ""}
-                    onChange={handleChange}
-                    error={errors.optimist}
-                    helperText={
-                      errors.optimist ? "Este campo es obligatorio" : ""
-                    }
-                  />
-                </Grid>
-                <Grid size="grow">
-                  <TextField
-                    variant="filled"
-                    slotProps={{
-                      inputLabel: {
-                        shrink: true,
-                      },
-                    }}
-                    size="small"
-                    label="Probable"
-                    type="number"
-                    name="probable"
-                    value={activity.probable || ""}
-                    onChange={handleChange}
-                    error={errors.probable}
-                    helperText={
-                      errors.probable ? "Este campo es obligatorio" : ""
-                    }
-                  />
-                </Grid>
-                <Grid size="grow">
-                  <TextField
-                    variant="filled"
-                    slotProps={{
-                      inputLabel: {
-                        shrink: true,
-                      },
-                    }}
-                    size="small"
-                    label="Pesimista"
-                    type="number"
-                    name="pessimist"
-                    value={activity.pessimist || ""}
-                    onChange={handleChange}
-                    error={errors.pessimist}
-                    helperText={
-                      errors.pessimist ? "Este campo es obligatorio" : ""
-                    }
-                  />
-                </Grid>
-              </Grid>
-              <Grid width="100%">
-                <TextField
-                  label="Costo"
-                  type="number"
-                  name="cost"
-                  size="small"
-                  value={activity.cost || ""}
-                  onChange={handleChange}
-                  fullWidth
-                  error={errors.cost}
-                  helperText={errors.cost ? "Este campo es obligatorio" : ""}
-                />
-              </Grid>
-              <Grid width="100%">
-                <TextField
-                  label="Aceleración aplicable"
-                  type="number"
-                  name="acceleration"
-                  size="small"
-                  value={activity.acceleration || ""}
-                  onChange={handleChange}
-                  fullWidth
-                  error={errors.acceleration}
-                  helperText={
-                    errors.acceleration ? "Este campo es obligatorio" : ""
-                  }
-                />
-              </Grid>
-              <Grid width="100%">
-                <TextField
-                  label="Costo de aceleración"
-                  type="number"
-                  name="accelerationCost"
-                  size="small"
-                  value={activity.accelerationCost || ""}
-                  onChange={handleChange}
-                  fullWidth
-                  error={errors.accelerationCost}
-                  helperText={
-                    errors.accelerationCost ? "Este campo es obligatorio" : ""
-                  }
-                />
-              </Grid>
-              <Grid width="100%">
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleSubmit}
-                >
-                  Agregar Actividad
-                </Button>
-              </Grid>
-            </Grid>
-          </form>
-        </Box>
-      </Modal>
+        </Modal>
+      )}
     </div>
   );
 };

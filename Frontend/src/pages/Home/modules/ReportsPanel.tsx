@@ -1,4 +1,4 @@
-import { Grid2, Typography, Box } from "@mui/material";
+import { Typography, Box } from "@mui/material";
 import { GraphView } from "@components/GraphView";
 import { ReactFlowProvider } from "@xyflow/react";
 import { useAppSelector } from "@store/hooks";
@@ -8,18 +8,7 @@ export function ReportsPanel() {
   const STATE = useAppSelector(GetStateHome);
 
   return (
-    <Grid2
-      sx={(theme) => ({
-        padding: 2,
-        gap: 4,
-        display: "flex",
-        flexDirection: "column",
-        height: "calc(100% - 1rem)",
-        overflowY: "auto",
-        flex: 2,
-        borderLeft: `.1rem solid ${theme.palette.divider}`,
-      })}
-    >
+    <>
       <Box sx={{ height: "15rem" }}>
         <ReactFlowProvider>
           <GraphView activities={STATE.activities} />
@@ -29,6 +18,6 @@ export function ReportsPanel() {
       {/* Aquí iría el componente del gráfico de distribución de tiempos */}
       <Typography variant="h6">Tabla de Resultados</Typography>
       {/* Aquí iría la tabla de resultados */}
-    </Grid2>
+    </>
   );
 }
