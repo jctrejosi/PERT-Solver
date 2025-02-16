@@ -11,6 +11,12 @@ class Activity():
         self.probable = probable
         self.pessimist = pessimist
 
+    def calculate_effective_duration(self) -> float:
+        duration = self.calculate_average_time()
+        if self.acceleration is not None:
+            duration = max(duration - self.acceleration, 0)
+        return duration
+
     def calculate_average_time(self) -> float:
         if self.optimist is not None and self.pessimist is not None:
             return (self.optimist + 4 * self.probable + self.pessimist) / 6
@@ -37,7 +43,7 @@ class Activity():
         return [activity.to_dict_table() for activity in activities]
 
 class PERTCalculator:
-    def __init__(self, activities: List[Dict], expected_time: float):
+    def __init__(self, activities: List[Activity], expected_time: float):
         self.activities = activities
         self.activity_dict = {activity.name: activity for activity in self.activities}
         self.critical_path = []
@@ -57,22 +63,37 @@ class PERTCalculator:
         for activity in self.activities:
             if not activity.precedents:
                 self.earliest_start[activity.name] = 0
-                self.earliest_finish[activity.name] = activity.average_time
             else:
-                max_precedent_finish = max(self.earliest_finish[precedent] for precedent in activity.precedents)
+                # Asegurar que los precedentes existen antes de acceder a ellos
+                if any(p not in self.earliest_finish for p in activity.precedents):
+                    raise KeyError(f"Precedent missing for activity {activity.name}")
+
+                max_precedent_finish = max(self.earliest_finish[p] for p in activity.precedents)
                 self.earliest_start[activity.name] = max_precedent_finish
-                self.earliest_finish[activity.name] = self.earliest_start[activity.name] + activity.average_time
+
+            self.earliest_finish[activity.name] = self.earliest_start[activity.name] + activity.calculate_effective_duration()
 
     def _backward_pass(self):
-        max_finish_time = max(self.earliest_finish.values())
+        max_finish_time = max(self.earliest_finish.values(), default=0)
+
+        # Determinar sucesores
+        successors = {activity.name: [] for activity in self.activities}
+        for activity in self.activities:
+            for precedent in activity.precedents:
+                successors[precedent].append(activity.name)
+
         for activity in reversed(self.activities):
-            if not activity.precedents:
+            if not successors[activity.name]:  # Si no tiene sucesores
                 self.latest_finish[activity.name] = max_finish_time
-                self.latest_start[activity.name] = self.latest_finish[activity.name] - activity.average_time
             else:
-                min_precedent_start = min(self.latest_start[precedent] for precedent in activity.precedents)
-                self.latest_finish[activity.name] = min_precedent_start
-                self.latest_start[activity.name] = self.latest_finish[activity.name] - activity.average_time
+                # Asegurar que los sucesores existen antes de acceder a ellos
+                if any(s not in self.latest_start for s in successors[activity.name]):
+                    raise KeyError(f"Successor missing for activity {activity.name}")
+
+                min_successor_start = min(self.latest_start[s] for s in successors[activity.name])
+                self.latest_finish[activity.name] = min_successor_start
+
+            self.latest_start[activity.name] = self.latest_finish[activity.name] - activity.calculate_effective_duration()
 
     def _determine_critical_path(self):
         for activity in self.activities:
