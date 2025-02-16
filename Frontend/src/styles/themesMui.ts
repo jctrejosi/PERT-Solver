@@ -1,7 +1,8 @@
 import { createTheme } from "@mui/material/styles";
 
-const theme = createTheme({
+const lightTheme = createTheme({
   palette: {
+    mode: "light",
     primary: {
       main: "#598164", // Azul primario
     },
@@ -19,4 +20,24 @@ const theme = createTheme({
   },
 });
 
-export default theme;
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+    primary: {
+      main: "#598164", // Azul primario
+    },
+    secondary: {
+      main: "#ff9800", // Naranja secundario
+    },
+    background: {
+      default: "#121212", // Fondo general oscuro
+      paper: "#1d1d1d", // Fondo de tarjetas oscuro
+    },
+    text: {
+      primary: "#fff", // Color de texto principal en modo oscuro
+      secondary: "#bbb", // Color de texto secundario en modo oscuro
+    },
+  },
+});
+
+export { lightTheme, darkTheme };

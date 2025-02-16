@@ -16,10 +16,10 @@ export function ActivitiesTable() {
       <Table aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell align="left">Nombre</TableCell>
-            <TableCell align="left">Precedentes</TableCell>
-            <TableCell>Tiempo Promedio</TableCell>
-            <TableCell>Varianza</TableCell>
+            <TableCell align="center">Nombre</TableCell>
+            <TableCell align="center">Precedentes</TableCell>
+            <TableCell align="center">Tiempo Promedio</TableCell>
+            <TableCell align="center">Varianza</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -28,12 +28,12 @@ export function ActivitiesTable() {
               key={row.name}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
-              <TableCell component="th" scope="row">
+              <TableCell component="th" scope="row" align="center">
                 {row.name}
               </TableCell>
-              <TableCell align="right">{row.precedents.join(", ")}</TableCell>
-              <TableCell align="right">{row.average_time}</TableCell>
-              <TableCell align="right">{row.variance}</TableCell>
+              <TableCell align="center">{row.precedents.join(", ")}</TableCell>
+              <TableCell align="center">{row.average_time}</TableCell>
+              <TableCell align="center">{row.variance}</TableCell>
             </TableRow>
           ))}
         </TableBody>
