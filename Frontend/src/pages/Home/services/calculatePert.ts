@@ -22,12 +22,10 @@ export const ApiCalculatePert = (
   axios
     .post<RequestCalculatePert>("/api/v1.0/calculatePert", params)
     .then((response) => {
-      console.log(response.data);
       dispatch(ActionsHome.SetTable(response.data.table));
       dispatch(ActionsHome.SetRoutes(response.data.routes));
     })
     .catch((error) => {
-      // Manejar el error aquí
       console.error(error);
     });
 };

@@ -7,7 +7,7 @@ const initialState = {
   activities: exampleActivities as Activity[],
   table: [] as TableVariance[],
   routes: [] as Route[],
-  expected_time: 0,
+  expected_time: 31,
 };
 
 export const homeSlice = createSlice({
