@@ -1,7 +1,7 @@
-from typing import List, Dict
+from typing import List, Dict, Union, Optional
 
-class Activity:
-    def __init__(self, name, precedents=None, cost=0, acceleration=None, acceleration_cost=None, optimist=None, probable=0, pessimist=None):
+class Activity():
+    def __init__(self, name: str, precedents: Optional[List[str]] = None, cost: float = 0.0, acceleration: Optional[int] = None, acceleration_cost: Optional[float] = None, optimist: Optional[float] = None, probable: float = 0.0, pessimist: Optional[float] = None):
         self.name = name
         self.precedents = precedents if precedents is not None else []
         self.cost = cost
@@ -10,30 +10,35 @@ class Activity:
         self.optimist = optimist
         self.probable = probable
         self.pessimist = pessimist
-        self.average_time = self.calculate_average_time()
-        self.variance = self.calculate_variance()
 
-    def calculate_average_time(self):
+    def calculate_average_time(self) -> float:
         if self.optimist is not None and self.pessimist is not None:
             return (self.optimist + 4 * self.probable + self.pessimist) / 6
         return self.probable
 
-    def calculate_variance(self):
+    def calculate_variance(self) -> float:
         if self.optimist is not None and self.pessimist is not None:
             return ((self.pessimist - self.optimist) / 6) ** 2
-        return 0
+        return 0.0
+
+    def to_dict_table(self) -> Dict[str, Union[str, List[str], float]]:
+        return {
+            'name': self.name,
+            'precedents': self.precedents,
+            'average_time': self.calculate_average_time(),
+            'variance': self.calculate_variance()
+        }
+
+    def __repr__(self):
+        return f"Activity(name={self.name}, avg_time={self.calculate_average_time()}, variance={self.calculate_variance()})"
+
+    @staticmethod
+    def calculate_table(activities: List['Activity']) -> List[Dict[str, Union[str, List[str], float]]]:
+        return [activity.to_dict_table() for activity in activities]
 
 class PERTCalculator:
-    def __init__(self, activities: List[Dict], expected_time: float):
-        self.activities = activities
-        self.activity_dict = {activity.name: activity for activity in self.activities}
-        self.critical_path = []
-        self.earliest_start = {}
-        self.earliest_finish = {}
-        self.latest_start = {}
-        self.latest_finish = {}
-        self.slack = {}
-        self.expected_time = expected_time
+    expected_time: float
+    activities: List[Activity]
 
     def calculate_pert(self):
         self._forward_pass()
@@ -102,13 +107,6 @@ class PERTCalculator:
 
         return [{'route': route, 'completion_time': time, 'critical': time > self.expected_time} for route, time in routes_with_times]
 
-    def calculate_table(self):
-        table = []
-        for activity in self.activities:
-            table.append({
-                'name': activity.name,
-                'precedents': activity.precedents,
-                'average_time': activity.average_time,
-                'variance': activity.variance
-            })
-        return table
+    def calculate_table(activities: List['Activity']) -> List[Dict[str, Union[str, List[str], float]]]:
+        return [activity.to_dict_table() for activity in activities]
+
