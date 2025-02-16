@@ -37,8 +37,16 @@ class Activity():
         return [activity.to_dict_table() for activity in activities]
 
 class PERTCalculator:
-    expected_time: float
-    activities: List[Activity]
+    def __init__(self, activities: List[Activity], expected_time: float):
+        self.activities = activities
+        self.activity_dict = {activity.name: activity for activity in self.activities}
+        self.critical_path = []
+        self.earliest_start = {}
+        self.earliest_finish = {}
+        self.latest_start = {}
+        self.latest_finish = {}
+        self.slack = {}
+        self.expected_time = expected_time
 
     def calculate_pert(self):
         self._forward_pass()
@@ -106,7 +114,3 @@ class PERTCalculator:
             self._find_all_routes([], start, routes_with_times, end_activities)
 
         return [{'route': route, 'completion_time': time, 'critical': time > self.expected_time} for route, time in routes_with_times]
-
-    def calculate_table(activities: List['Activity']) -> List[Dict[str, Union[str, List[str], float]]]:
-        return [activity.to_dict_table() for activity in activities]
-
