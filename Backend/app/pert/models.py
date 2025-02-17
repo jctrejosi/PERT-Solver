@@ -56,8 +56,9 @@ class PERTCalculator:
     def calculate_pert(self):
         self._forward_pass()
         self._backward_pass()
+        self._calculate_slack()
         self._determine_critical_path()
-        self.calculate_routes()
+        self._calculate_routes()
 
     def _forward_pass(self):
         for activity in self.activities:
@@ -66,7 +67,7 @@ class PERTCalculator:
             else:
                 max_precedent_finish = max(self.earliest_finish[p] for p in activity.precedents)
                 self.earliest_start[activity.name] = max_precedent_finish
-            self.earliest_finish[activity.name] = self.earliest_start[activity.name] + activity.average_time
+            self.earliest_finish[activity.name] = round(self.earliest_start[activity.name] + activity.average_time, 2)
 
     def _backward_pass(self):
         max_finish_time = max(self.earliest_finish.values(), default=0)
@@ -81,7 +82,11 @@ class PERTCalculator:
             else:
                 min_successor_start = min(self.latest_start[s] for s in successors[activity.name])
                 self.latest_finish[activity.name] = min_successor_start
-            self.latest_start[activity.name] = self.latest_finish[activity.name] - activity.average_time
+            self.latest_start[activity.name] = round(self.latest_finish[activity.name] - activity.average_time, 2)
+
+    def _calculate_slack(self):
+        for activity in self.activities:
+            self.slack[activity.name] = self.latest_start[activity.name] - self.earliest_start[activity.name]
 
     def _determine_critical_path(self):
         for activity in self.activities:
@@ -89,21 +94,10 @@ class PERTCalculator:
             if self.slack[activity.name] == 0:
                 self.critical_path.append(activity.name)
 
-    def get_activity_times(self):
-        return {
-            activity.name: {
-                'earliest_start': self.earliest_start[activity.name],
-                'earliest_finish': self.earliest_finish[activity.name],
-                'latest_start': self.latest_start[activity.name],
-                'latest_finish': self.latest_finish[activity.name],
-                'slack': self.slack[activity.name]
-            } for activity in self.activities
-        }
-
     def _find_all_routes(self, current_route, current_activity, routes_with_times, end_activities):
         current_route.append(current_activity)
         if current_activity in end_activities:
-            route_time = sum(self.activity_dict[activity].average_time for activity in current_route)
+            route_time = round(sum(self.activity_dict[activity].average_time for activity in current_route), 2)
             routes_with_times.append((list(current_route), route_time))
         else:
             for activity in self.activities:
@@ -111,7 +105,7 @@ class PERTCalculator:
                     self._find_all_routes(current_route, activity.name, routes_with_times, end_activities)
         current_route.pop()
 
-    def calculate_routes(self):
+    def _calculate_routes(self):
         start_activities = [activity.name for activity in self.activities if not activity.precedents]
         end_activities = [activity.name for activity in self.activities if all(activity.name not in a.precedents for a in self.activities)]
 
@@ -130,4 +124,15 @@ class PERTCalculator:
         std_dev_total = math.sqrt(variance_total)
         Z = (self.expected_time - min_completion_time) / std_dev_total
         probability = norm.cdf(Z)
-        return {"Z_score": round(Z, 3), "completion_probability": round(probability * 100, 2)}
+        return {"Z_score": round(Z, 2), "completion_probability": round(probability * 100, 2)}
+
+    def get_activity_times(self):
+        return {
+            activity.name: {
+                'earliest_start': self.earliest_start[activity.name],
+                'earliest_finish': self.earliest_finish[activity.name],
+                'latest_start': self.latest_start[activity.name],
+                'latest_finish': self.latest_finish[activity.name],
+                'slack': self.slack[activity.name]
+            } for activity in self.activities
+        }
