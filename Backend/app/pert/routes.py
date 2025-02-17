@@ -18,14 +18,20 @@ def calculate_pert_route():
         pert_calculator.calculate_pert()
 
         # Calcular la tabla y las rutas
-        routes = pert_calculator.calculate_routes()
+        routes = pert_calculator.routes_with_times
         activity_times = pert_calculator.get_activity_times()
         table = Activity.calculate_table(activities)
+        probability = pert_calculator.calculate_completion_probability()
+        min_completion_time = pert_calculator.get_project_duration()
+        critical_path = pert_calculator.critical_path
 
         response = {
             'routes': routes,
             'table': table,
             'activity_times': activity_times,
+            'probability': probability,
+            'min_completion_time': min_completion_time,
+            'critical_path': critical_path
         }
         return jsonify(response)
     except Exception as e:
