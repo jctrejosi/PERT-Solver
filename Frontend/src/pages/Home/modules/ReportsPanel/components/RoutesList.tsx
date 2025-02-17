@@ -8,12 +8,13 @@ import {
   Grid,
   useMediaQuery,
   useTheme,
+  Typography,
 } from "@mui/material";
-import FolderIcon from "@mui/icons-material/Folder";
 import { useAppSelector } from "@store/hooks";
 
 export default function RoutesList() {
   const routes = useAppSelector((state) => state.home.routes);
+  const expected_time = useAppSelector((state) => state.home.expected_time);
   const theme = useTheme();
 
   // Determinar cuántas columnas mostrar según el tamaño de la pantalla
@@ -25,14 +26,29 @@ export default function RoutesList() {
 
   return (
     <Box sx={{ flexGrow: 1, maxWidth: "100%", padding: 2 }}>
-      <Grid container spacing={2}>
+      <Grid container>
         {routes.map((route, index) => (
           <Grid item xs={12 / columns} key={index}>
-            <List>
-              <ListItem>
+            <List sx={{ padding: 0 }}>
+              <ListItem
+                sx={{
+                  color:
+                    expected_time < route.completion_time
+                      ? theme.palette.error.main
+                      : theme.palette.primary.light,
+                }}
+              >
                 <ListItemAvatar>
-                  <Avatar>
-                    <FolderIcon />
+                  <Avatar
+                    sx={{
+                      backgroundColor:
+                        expected_time < route.completion_time
+                          ? theme.palette.error.main
+                          : theme.palette.primary.light,
+                      padding: 0.5,
+                    }}
+                  >
+                    <Typography>{route.completion_time}</Typography>
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText primary={route.route} />

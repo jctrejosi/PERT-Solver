@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../../store";
-import { Activity, Route, TableVariance } from "@customTypes/core";
+import { AcitvityTimes, Activity, Route, TableVariance } from "@customTypes/core";
 import { exampleActivities } from "./Examples/activities";
 
 const initialState = {
@@ -8,6 +8,7 @@ const initialState = {
   table: [] as TableVariance[],
   routes: [] as Route[],
   expected_time: 31,
+  activity_times: [] as AcitvityTimes[],
 };
 
 export const homeSlice = createSlice({
@@ -32,6 +33,11 @@ export const homeSlice = createSlice({
     SetRoutes: (state, newValue: PayloadAction<Route[]>) => ({
       ...state,
       routes: newValue.payload,
+    }),
+
+    SetActivityTimes: (state, newValue: PayloadAction<AcitvityTimes[]>) => ({
+      ...state,
+      activity_times: newValue.payload,
     }),
 
     ResetState: () => initialState,

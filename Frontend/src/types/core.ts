@@ -21,3 +21,11 @@ export type TableVariance = {
   precedents: [];
   variance: number;
 };
+
+export type AcitvityTimes = {
+  earliest_finish: number;
+  earliest_start: number;
+  latest_finish: number;
+  latest_start: number;
+  slack: number;
+};

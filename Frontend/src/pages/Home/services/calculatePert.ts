@@ -1,4 +1,4 @@
-import { Route, TableVariance, Activity as Task } from "@customTypes/core";
+import { AcitvityTimes, Route, TableVariance, Activity as Task } from "@customTypes/core";
 import axios from "axios";
 import { ActionsHome } from "../slice";
 import { Dispatch } from "redux";
@@ -13,6 +13,7 @@ export type ParamsSetCalculatePert = {
 export type RequestCalculatePert = {
   routes: Route[];
   table: TableVariance[];
+  activity_times: AcitvityTimes[];
 };
 
 export const ApiCalculatePert = (
@@ -24,6 +25,7 @@ export const ApiCalculatePert = (
     .then((response) => {
       dispatch(ActionsHome.SetTable(response.data.table));
       dispatch(ActionsHome.SetRoutes(response.data.routes));
+      dispatch(ActionsHome.SetActivityTimes(response.data.activity_times));
     })
     .catch((error) => {
       console.error(error);

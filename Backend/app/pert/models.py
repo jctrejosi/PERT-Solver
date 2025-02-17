@@ -31,8 +31,8 @@ class Activity():
         return {
             'name': self.name,
             'precedents': self.precedents,
-            'average_time': self.calculate_average_time(),
-            'variance': self.calculate_variance()
+            'average_time': round(self.calculate_average_time(), 2),
+            'variance': round(self.calculate_variance(), 2)
         }
 
     def __repr__(self):
@@ -100,9 +100,6 @@ class PERTCalculator:
             self.slack[activity.name] = self.latest_start[activity.name] - self.earliest_start[activity.name]
             if self.slack[activity.name] == 0:
                 self.critical_path.append(activity.name)
-
-    def get_critical_path(self):
-        return self.critical_path
 
     def get_activity_times(self):
         return {
