@@ -80,9 +80,9 @@ export function ReportsPanel() {
       <Box sx={{ flex: 1, display: "flex", flexDirection: "column", gap: 2 }}>
         <Typography variant="h6">Lista de rutas</Typography>
         <RoutesList />
-        <Typography variant="h6">Tabla de varianzas</Typography>
+        <Typography variant="h6">Tabla de actividades con sus varianzas</Typography>
         <ActivitiesTable />
-        <Typography variant="h6">Probabilidad de completar la ruta: {STATE.probability}</Typography>
+        <Typography variant="subtitle1">La probabilidad de completar el proyecto en {STATE.expected_time} unidades de tiempo es de {STATE.probability}%</Typography>
         <ActivityTimesChart activityTimes={STATE.activity_times} />
       </Box>
     </Box>

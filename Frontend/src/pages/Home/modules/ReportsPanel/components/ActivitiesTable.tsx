@@ -12,14 +12,22 @@ export function ActivitiesTable() {
   const table = useAppSelector((state: RootState) => state.home.table);
 
   return (
-    <TableContainer component={Paper} sx={{ height: "20rem", width: "40rem" }}>
+    <TableContainer component={Paper} >
       <Table aria-label="simple table">
-        <TableHead>
+        <TableHead sx={{ backgroundColor: (theme) => theme.palette.primary.main }}>
           <TableRow>
-            <TableCell align="center">Nombre</TableCell>
-            <TableCell align="center">Precedentes</TableCell>
-            <TableCell align="center">Tiempo Promedio</TableCell>
-            <TableCell align="center">Varianza</TableCell>
+            <TableCell align="center" sx={{ color: (theme) => theme.palette.common.white, fontWeight: "bold" }}>
+              Nombre
+            </TableCell>
+            <TableCell align="center" sx={{ color: (theme) => theme.palette.common.white, fontWeight: "bold" }}>
+              Precedentes
+            </TableCell>
+            <TableCell align="center" sx={{ color: (theme) => theme.palette.common.white, fontWeight: "bold" }}>
+              Tiempo Promedio
+            </TableCell>
+            <TableCell align="center" sx={{ color: (theme) => theme.palette.common.white, fontWeight: "bold" }}>
+              Varianza
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
