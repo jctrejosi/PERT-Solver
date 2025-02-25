@@ -7,6 +7,7 @@ import { ActivitiesTable } from "./components/ActivitiesTable";
 import { useState } from "react";
 import Expand from "@mui/icons-material/Expand";
 import RoutesList from "./components/RoutesList";
+import { ActivityTimesChart } from "./components/ActivityTimesChart";
 
 export function ReportsPanel() {
   const STATE = useAppSelector(GetStateHome);
@@ -82,6 +83,7 @@ export function ReportsPanel() {
         <Typography variant="h6">Tabla de varianzas</Typography>
         <ActivitiesTable />
         <Typography variant="h6">Probabilidad de completar la ruta: {STATE.probability}</Typography>
+        <ActivityTimesChart activityTimes={STATE.activity_times} />
       </Box>
     </Box>
   );

@@ -4,10 +4,10 @@ const lightTheme = createTheme({
   palette: {
     mode: "light",
     primary: {
-      main: "#598164", // Azul primario
+      main: "#598164", // Verde primario
     },
     secondary: {
-      main: "#ff9800", // Naranja secundario
+      main: "#FFBC57", // Naranja secundario
     },
     background: {
       default: "#f5f5f5", // Fondo general

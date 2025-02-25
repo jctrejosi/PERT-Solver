@@ -168,23 +168,24 @@ class PERTCalculator:
                 break  # Ya se alcanzó la meta de reducción de tiempo
 
             # Determinar cuánto tiempo se puede reducir en esta actividad
-            max_reducible = min(activity.acceleration, total_reduction_needed)
-            reduction_cost = max_reducible * activity.acceleration_cost
+            max_reducible = round(min(activity.acceleration, total_reduction_needed), 2)
+            if(max_reducible != 0):
+                reduction_cost = round(max_reducible * activity.acceleration_cost, 2)
 
-            # Registrar optimización aplicada
-            optimized_activities.append({
-                "activity": activity.name,
-                "time_reduced": max_reducible,
-                "acceleration_cost_per_unit": activity.acceleration_cost,
-                "total_acceleration_cost": reduction_cost
-            })
+                # Registrar optimización aplicada
+                optimized_activities.append({
+                    "activity": activity.name,
+                    "time_reduced": max_reducible,
+                    "acceleration_cost_per_unit": activity.acceleration_cost,
+                    "total_acceleration_cost": reduction_cost
+                })
 
-            # Actualizar valores
-            total_reduction_needed -= max_reducible
-            total_acceleration_cost += reduction_cost
+                # Actualizar valores
+                total_reduction_needed -= max_reducible
+                total_acceleration_cost += reduction_cost
 
         return {
-            "optimized_activities": optimized_activities,
+            "optimized_activities": [optimized_activities],
             "total_acceleration_cost": total_acceleration_cost
         }
 
