@@ -10,7 +10,7 @@ import RoutesList from "./components/RoutesList";
 import { ActivityTimesChart } from "./components/ActivityTimesChart";
 import { OptimizedActivitiesTable } from "./components/OptimizedActivitiesTable";
 import { ActivityTimelineChart } from "./components/ActivityTimelineChart";
-import { ActivitiesTimesChart } from "./components/ActivitiesTimesChart";
+import { PeriodTimesChart } from "./components/PeriodTimesChart";
 
 export function ReportsPanel() {
   const STATE = useAppSelector(GetStateHome);
@@ -102,7 +102,7 @@ export function ReportsPanel() {
         )}
         {STATE.activity_times.length > 0 && (
           <Box>
-            <Typography variant="h6">Grafico de tiempos tempranos y tardíos</Typography>
+            <Typography variant="h6">Tiempos tempranos y tardíos</Typography>
             <ActivityTimesChart activityTimes={STATE.activity_times} />
           </Box>
         )}
@@ -114,8 +114,8 @@ export function ReportsPanel() {
         )}
         {STATE.activity_times.length > 0 && (
           <Box>
-            <Typography variant="h6">Línea de tiempos tempranos y tardíos</Typography>
-            <ActivitiesTimesChart activityTimes={STATE.activity_times} />
+            <Typography variant="h6">Rendimiento de tiempos</Typography>
+            <PeriodTimesChart activityTimes={STATE.activity_times} />
           </Box>
         )}
       </Box>

@@ -6,7 +6,7 @@ export type ActivityTimelineProps = {
   activityTimes: AcitvityTimes[];
 };
 
-export function ActivitiesTimesChart({ activityTimes }: ActivityTimelineProps) {
+export function PeriodTimesChart({ activityTimes }: ActivityTimelineProps) {
   const theme = useTheme();
 
   const timeMap: Record<number, { early: number; late: number }> = {};
