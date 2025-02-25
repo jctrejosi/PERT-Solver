@@ -1,4 +1,4 @@
-import { BarChart, Bar, XAxis, YAxis, Legend, ResponsiveContainer, LabelList, Tooltip } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend, ResponsiveContainer, LabelList, Tooltip } from "recharts";
 import { AcitvityTimes } from "@customTypes/core";
 import { useTheme } from '@mui/material/styles';
 
@@ -9,21 +9,24 @@ export function ActivityTimesChart({ activityTimes }: props) {
   // Convertir el objeto en un array compatible con Recharts
   const theme = useTheme();
 
-  const data = Object.entries(activityTimes).map(([name, times]) => ({
-    name,
-    duration: times.earliest_finish - times.earliest_start,
-    earliest_finish: times.earliest_finish,
-    latest_finish: times.latest_finish,
-    earliest_start: times.earliest_start,
-    latest_start: times.latest_start,
-    slack: times.slack,
-  }));
+  const data = activityTimes.map(activity => {
+    return {
+      name: activity.name,
+      duration: activity.earliest_finish - activity.earliest_start,
+      earliest_finish: activity.earliest_finish,
+      latest_finish: activity.latest_finish,
+      earliest_start: activity.earliest_start,
+      latest_start: activity.latest_start,
+      slack: activity.slack,
+    }
+  });
 
   return (
     <ResponsiveContainer width="100%" height={800}>
-      <BarChart layout="vertical" data={data} margin={{ top: 20, right: 20, left: 10, bottom: 5 }} style={{ display: 'flex', justifyContent: 'center' }}>
-        <XAxis type="number" domain={[0, 'dataMax']} />
-        <YAxis dataKey="name" type="category" />
+      <BarChart layout="vertical" data={data} margin={{ top: 20, right: 70, left: 0, bottom: 5 }} style={{ display: 'flex', justifyContent: 'center' }}>
+        <CartesianGrid stroke={theme.palette.divider} strokeDasharray="5 5" />
+        <XAxis type="number" domain={[0, 'dataMax']} tickCount={data[data.length - 1]?.earliest_finish || 10} interval={0} tick={{ fontSize: 12 }} />
+        <YAxis dataKey="name" type="category" tick={{ fontSize: 12 }} />
 
         <Tooltip content={({ active, payload }) => {
           if (active && payload && payload.length && payload[0].payload.slack > 0) {

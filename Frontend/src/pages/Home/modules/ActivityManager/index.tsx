@@ -58,7 +58,7 @@ export function ActivityManager() {
         fullWidth
         style={{ marginBottom: "1rem" }}
       >
-        PERT
+        CALCULAR PERT
       </Button>
       <TextField
         label="Tiempo esperado"

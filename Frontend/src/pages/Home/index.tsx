@@ -5,7 +5,7 @@ import { ActivityManager } from "./modules/ActivityManager";
 
 export function Home() {
   return (
-    <Grid2 container spacing={2} style={{ height: "100%", width: "100%" }}>
+    <Grid2 container style={{ height: "100%", width: "100%" }}>
       <Navbar />
       <Container
         sx={(theme) => ({

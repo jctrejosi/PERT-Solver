@@ -78,27 +78,32 @@ export function ReportsPanel() {
         />
       </Box>
 
-      <Box sx={{ flex: 1, display: "flex", flexDirection: "column", gap: 2 }}>
+      <Box sx={{ flex: 1, display: "flex", flexDirection: "column", gap: 6 }}>
         {STATE.routes.length > 0 && (
-          <>
+          <Box>
             <Typography variant="h6">Lista de rutas</Typography>
             <RoutesList />
-          </>
+          </Box>
         )}
         {STATE.table.length > 0 && (
-          <>
+          <Box>
             <Typography variant="h6">Tabla de actividades con sus varianzas</Typography>
             <ActivitiesTable />
             <Typography variant="subtitle1">La probabilidad de completar el proyecto en {STATE.expected_time} unidades de tiempo es de {STATE.probability}%</Typography>
-          </>
+          </Box>
         )}
-        {STATE.optimized_activities.length > 0 && (
-          <>
+        {STATE.optimized_activities?.length > 0 && (
+          <Box>
             <Typography variant="h6">Optimización de actividades</Typography>
             <OptimizedActivitiesTable />
-          </>
+          </Box>
         )}
-        {STATE.activity_times.length > 0 && <ActivityTimesChart activityTimes={STATE.activity_times} />}
+        {STATE.activity_times.length > 0 && (
+          <Box>
+            <Typography variant="h6">Grafico de tiempos tempranos y tardíos</Typography>
+            <ActivityTimesChart activityTimes={STATE.activity_times} />
+          </Box>
+        )}
       </Box>
     </Box>
   );

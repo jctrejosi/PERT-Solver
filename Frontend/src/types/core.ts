@@ -28,4 +28,5 @@ export type AcitvityTimes = {
   latest_finish: number;
   latest_start: number;
   slack: number;
+  name: string;
 };
