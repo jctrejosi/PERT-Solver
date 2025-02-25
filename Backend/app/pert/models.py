@@ -130,10 +130,10 @@ class PERTCalculator:
     def get_activity_times(self):
         return {
             activity.name: {
-                'earliest_start': self.earliest_start[activity.name],
-                'earliest_finish': self.earliest_finish[activity.name],
-                'latest_start': self.latest_start[activity.name],
-                'latest_finish': self.latest_finish[activity.name],
+                'earliest_start': round(self.earliest_start[activity.name], 2),
+                'earliest_finish': round(self.earliest_finish[activity.name], 2),
+                'latest_start': round(self.latest_start[activity.name], 2),
+                'latest_finish': round(self.latest_finish[activity.name], 2),
                 'slack': round(self.slack[activity.name], 2)
             } for activity in self.activities
         }
