@@ -14,18 +14,18 @@ export function ActivitiesTable() {
   return (
     <TableContainer component={Paper} >
       <Table aria-label="simple table">
-        <TableHead sx={{ backgroundColor: (theme) => theme.palette.primary.main }}>
+        <TableHead sx={{ backgroundColor: (theme) => theme.palette.background.default }}>
           <TableRow>
-            <TableCell align="center" sx={{ color: (theme) => theme.palette.common.white, fontWeight: "bold" }}>
+            <TableCell align="center" sx={{ color: (theme) => theme.palette.common.black, fontWeight: "bold" }}>
               Nombre
             </TableCell>
-            <TableCell align="center" sx={{ color: (theme) => theme.palette.common.white, fontWeight: "bold" }}>
-              Precedentes
+            <TableCell align="center" sx={{ color: (theme) => theme.palette.common.black, fontWeight: "bold" }}>
+              Predecesoras
             </TableCell>
-            <TableCell align="center" sx={{ color: (theme) => theme.palette.common.white, fontWeight: "bold" }}>
+            <TableCell align="center" sx={{ color: (theme) => theme.palette.common.black, fontWeight: "bold" }}>
               Tiempo Promedio
             </TableCell>
-            <TableCell align="center" sx={{ color: (theme) => theme.palette.common.white, fontWeight: "bold" }}>
+            <TableCell align="center" sx={{ color: (theme) => theme.palette.common.black, fontWeight: "bold" }}>
               Varianza
             </TableCell>
           </TableRow>

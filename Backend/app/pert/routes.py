@@ -33,6 +33,7 @@ def calculate_pert_route():
             'probability': probability,
             'optimized_activities': optimization_result,
         }
+
         return jsonify(response)
     except Exception as e:
         return jsonify({'error': str(e)}), 500

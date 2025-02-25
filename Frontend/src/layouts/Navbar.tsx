@@ -1,14 +1,20 @@
-import { AppBar, Toolbar, Typography, Button } from "@mui/material";
+import { AppBar, Typography } from "@mui/material";
 
 export const Navbar = () => {
   return (
-    <AppBar position="static">
-      <Toolbar>
-        <Typography variant="h6" style={{ flexGrow: 1 }}>
-          PERT-Solver
-        </Typography>
-        <Button color="inherit">Inicio</Button>
-      </Toolbar>
+    <AppBar
+      position="static"
+      sx={{
+        padding: "1.5rem",
+        height: "4rem",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <Typography variant="h6" sx={{ display: "flex", alignItems: "center" }}>
+        PERT-Solver
+      </Typography>
     </AppBar>
   );
 };

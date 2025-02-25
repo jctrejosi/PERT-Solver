@@ -175,7 +175,7 @@ export const ActivityFormModal = ({
     <div style={{ width: "100%" }}>
       <Button
         variant="outlined"
-        color="primary"
+        color="info"
         onClick={handleOpen}
         endIcon={<AddCircleOutlineIcon />}
         fullWidth
@@ -330,7 +330,7 @@ export const ActivityFormModal = ({
                 </Grid>
                 <Grid width="100%">
                   <TextField
-                    label="Costo"
+                    label="Costo de la actividad"
                     type="number"
                     name="cost"
                     size="small"
@@ -343,7 +343,7 @@ export const ActivityFormModal = ({
                 </Grid>
                 <Grid width="100%">
                   <TextField
-                    label="Aceleración aplicable"
+                    label="Unidades de aceleración aplicable"
                     type="number"
                     name="acceleration"
                     size="small"
@@ -358,7 +358,7 @@ export const ActivityFormModal = ({
                 </Grid>
                 <Grid width="100%">
                   <TextField
-                    label="Costo de aceleración"
+                    label="Costo de aceleración por unidad de tiempo"
                     type="number"
                     name="acceleration_cost"
                     size="small"
@@ -376,7 +376,7 @@ export const ActivityFormModal = ({
                 <Grid width="100%">
                   <Button
                     variant="contained"
-                    color="primary"
+                    color="success"
                     onClick={handleSubmit}
                   >
                     Agregar Actividad

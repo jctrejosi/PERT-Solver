@@ -10,13 +10,26 @@ export type ParamsSetCalculatePert = {
   expected_time: number;
 };
 
+export type ProbablyT = {
+  Z_score: number;
+  completion_probability: number;
+}
+
+export type OptimizedActivitiesT = {
+  acceleration_cost_per_unit: number;
+  activity: string;
+  time_reduced: number;
+  total_acceleration_cost: number;
+}
+
 export type RequestCalculatePert = {
   routes: Route[];
   table: TableVariance[];
   activity_times: AcitvityTimes[];
-  probability: {
-    Z_score: number;
-    completion_probability: number;
+  probability: ProbablyT;
+  optimized_activities: {
+    activities: OptimizedActivitiesT[];
+    total_acceleration_cost: number;
   };
 };
 
@@ -31,6 +44,8 @@ export const ApiCalculatePert = (
       dispatch(ActionsHome.SetRoutes(response.data.routes));
       dispatch(ActionsHome.SetActivityTimes(response.data.activity_times));
       dispatch(ActionsHome.SetProbability(response.data.probability.completion_probability));
+      dispatch(ActionsHome.SetOptimizedActivities(response.data.optimized_activities.activities));
+      dispatch(ActionsHome.SetTotalAccelerationCost(response.data.optimized_activities.total_acceleration_cost));
     })
     .catch((error) => {
       console.error(error);

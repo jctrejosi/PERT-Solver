@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../../store";
 import { AcitvityTimes, Activity, Route, TableVariance } from "@customTypes/core";
 import { exampleActivities } from "./Examples/activities";
+import { OptimizedActivitiesT } from "./services/calculatePert";
 
 const initialState = {
   activities: exampleActivities as Activity[],
@@ -10,6 +11,8 @@ const initialState = {
   expected_time: 31,
   activity_times: [] as AcitvityTimes[],
   probability: 0,
+  optimized_activities: [] as OptimizedActivitiesT[],
+  total_acceleration_cost: 0,
 };
 
 export const homeSlice = createSlice({
@@ -44,6 +47,16 @@ export const homeSlice = createSlice({
     SetProbability: (state, newValue: PayloadAction<number>) => ({
       ...state,
       probability: newValue.payload,
+    }),
+
+    SetOptimizedActivities: (state, newValue: PayloadAction<OptimizedActivitiesT[]>) => ({
+      ...state,
+      optimized_activities: newValue.payload,
+    }),
+
+    SetTotalAccelerationCost: (state, newValue: PayloadAction<number>) => ({
+      ...state,
+      total_acceleration_cost: newValue.payload,
     }),
 
     ResetState: () => initialState,

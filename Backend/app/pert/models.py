@@ -128,15 +128,16 @@ class PERTCalculator:
         return {"Z_score": round(Z, 2), "completion_probability": round(probability * 100, 2)}
 
     def get_activity_times(self):
-        return {
-            activity.name: {
+        return [
+            {
+                'name': activity.name,
                 'earliest_start': round(self.earliest_start[activity.name], 2),
                 'earliest_finish': round(self.earliest_finish[activity.name], 2),
                 'latest_start': round(self.latest_start[activity.name], 2),
                 'latest_finish': round(self.latest_finish[activity.name], 2),
                 'slack': round(self.slack[activity.name], 2)
             } for activity in self.activities
-        }
+        ]
 
     def optimize_critical_path(self):
         # Filtrar rutas críticas
@@ -185,7 +186,7 @@ class PERTCalculator:
                 total_acceleration_cost += reduction_cost
 
         return {
-            "optimized_activities": [optimized_activities],
+            "activities": optimized_activities,
             "total_acceleration_cost": total_acceleration_cost
         }
 

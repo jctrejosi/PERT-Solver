@@ -4,18 +4,25 @@ const lightTheme = createTheme({
   palette: {
     mode: "light",
     primary: {
-      main: "#2D632D", // Verde primario
+      main: "#81b29a",
+      light: "#F0F5F2",
     },
     secondary: {
-      main: "#252973", // Naranja secundario
+      main: "#3d405b",
     },
     background: {
-      default: "#f5f5f5", // Fondo general
-      paper: "#fff", // Fondo de tarjetas
+      default: "#f2cc8f",
+      paper: "#fff",
     },
     text: {
-      primary: "#333", // Color de texto principal
-      secondary: "#666", // Color de texto secundario
+      primary: "#333",
+      secondary: "#666",
+    },
+    success: {
+      main: "#3d405b",
+    },
+    info: {
+      main: "#3d405b",
     },
   },
 });

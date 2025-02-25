@@ -8,6 +8,7 @@ import { useState } from "react";
 import Expand from "@mui/icons-material/Expand";
 import RoutesList from "./components/RoutesList";
 import { ActivityTimesChart } from "./components/ActivityTimesChart";
+import { OptimizedActivitiesTable } from "./components/OptimizedActivitiesTable";
 
 export function ReportsPanel() {
   const STATE = useAppSelector(GetStateHome);
@@ -78,12 +79,26 @@ export function ReportsPanel() {
       </Box>
 
       <Box sx={{ flex: 1, display: "flex", flexDirection: "column", gap: 2 }}>
-        <Typography variant="h6">Lista de rutas</Typography>
-        <RoutesList />
-        <Typography variant="h6">Tabla de actividades con sus varianzas</Typography>
-        <ActivitiesTable />
-        <Typography variant="subtitle1">La probabilidad de completar el proyecto en {STATE.expected_time} unidades de tiempo es de {STATE.probability}%</Typography>
-        <ActivityTimesChart activityTimes={STATE.activity_times} />
+        {STATE.routes.length > 0 && (
+          <>
+            <Typography variant="h6">Lista de rutas</Typography>
+            <RoutesList />
+          </>
+        )}
+        {STATE.table.length > 0 && (
+          <>
+            <Typography variant="h6">Tabla de actividades con sus varianzas</Typography>
+            <ActivitiesTable />
+            <Typography variant="subtitle1">La probabilidad de completar el proyecto en {STATE.expected_time} unidades de tiempo es de {STATE.probability}%</Typography>
+          </>
+        )}
+        {STATE.optimized_activities.length > 0 && (
+          <>
+            <Typography variant="h6">Optimización de actividades</Typography>
+            <OptimizedActivitiesTable />
+          </>
+        )}
+        {STATE.activity_times.length > 0 && <ActivityTimesChart activityTimes={STATE.activity_times} />}
       </Box>
     </Box>
   );
