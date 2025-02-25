@@ -17,7 +17,7 @@ export type GraphViewProps = {
   activities: Activity[];
 };
 
-export function GraphView({ activities }: GraphViewProps) {
+export function RoutesGraph({ activities }: GraphViewProps) {
   const { fitView } = useReactFlow(); // Hook para controlar ReactFlow
   const [nodes, setNodes] = useState<Node[]>([]);
   const [edges, setEdges] = useState<Edge[]>([]);

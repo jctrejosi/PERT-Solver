@@ -1,5 +1,5 @@
 import { Typography, Box } from "@mui/material";
-import { GraphView } from "./components/GraphView";
+import { RoutesGraph } from "./components/RoutesGraph";
 import { ReactFlowProvider } from "@xyflow/react";
 import { useAppSelector } from "@store/hooks";
 import { GetStateHome } from "../../slice";
@@ -9,6 +9,8 @@ import Expand from "@mui/icons-material/Expand";
 import RoutesList from "./components/RoutesList";
 import { ActivityTimesChart } from "./components/ActivityTimesChart";
 import { OptimizedActivitiesTable } from "./components/OptimizedActivitiesTable";
+import { ActivityTimelineChart } from "./components/ActivityTimelineChart";
+import { ActivitiesTimesChart } from "./components/ActivitiesTimesChart";
 
 export function ReportsPanel() {
   const STATE = useAppSelector(GetStateHome);
@@ -49,7 +51,7 @@ export function ReportsPanel() {
 
       <Box sx={{ height: graphHeight, flexShrink: 0, position: "relative" }}>
         <ReactFlowProvider>
-          <GraphView activities={STATE.activities} />
+          <RoutesGraph activities={STATE.activities} />
         </ReactFlowProvider>
       </Box>
 
@@ -102,6 +104,18 @@ export function ReportsPanel() {
           <Box>
             <Typography variant="h6">Grafico de tiempos tempranos y tardíos</Typography>
             <ActivityTimesChart activityTimes={STATE.activity_times} />
+          </Box>
+        )}
+        {STATE.activity_times.length > 0 && (
+          <Box>
+            <Typography variant="h6">Gasto de tiempo por período</Typography>
+            <ActivityTimelineChart activityTimes={STATE.activity_times} />
+          </Box>
+        )}
+        {STATE.activity_times.length > 0 && (
+          <Box>
+            <Typography variant="h6">Línea de tiempos tempranos y tardíos</Typography>
+            <ActivitiesTimesChart activityTimes={STATE.activity_times} />
           </Box>
         )}
       </Box>
