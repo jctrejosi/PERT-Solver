@@ -9,6 +9,7 @@ const initialState = {
   routes: [] as Route[],
   expected_time: 31,
   activity_times: [] as AcitvityTimes[],
+  probability: 0,
 };
 
 export const homeSlice = createSlice({
@@ -38,6 +39,11 @@ export const homeSlice = createSlice({
     SetActivityTimes: (state, newValue: PayloadAction<AcitvityTimes[]>) => ({
       ...state,
       activity_times: newValue.payload,
+    }),
+
+    SetProbability: (state, newValue: PayloadAction<number>) => ({
+      ...state,
+      probability: newValue.payload,
     }),
 
     ResetState: () => initialState,

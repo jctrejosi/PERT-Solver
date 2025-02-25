@@ -51,7 +51,7 @@ class PERTCalculator:
         self.latest_finish = {}
         self.slack = {}
         self.routes_with_times = []
-        self.routes_with_times = []
+        self.probability = 0
 
     def calculate_pert(self):
         self._forward_pass()
@@ -124,6 +124,7 @@ class PERTCalculator:
         std_dev_total = math.sqrt(variance_total)
         Z = (self.expected_time - min_completion_time) / std_dev_total
         probability = norm.cdf(Z)
+        self.probability = probability
         return {"Z_score": round(Z, 2), "completion_probability": round(probability * 100, 2)}
 
     def get_activity_times(self):
@@ -133,6 +134,57 @@ class PERTCalculator:
                 'earliest_finish': self.earliest_finish[activity.name],
                 'latest_start': self.latest_start[activity.name],
                 'latest_finish': self.latest_finish[activity.name],
-                'slack': self.slack[activity.name]
+                'slack': round(self.slack[activity.name], 2)
             } for activity in self.activities
         }
+
+    def optimize_critical_path(self):
+        # Filtrar rutas críticas
+        critical_routes = [route for route in self.routes_with_times if route["critical"]]
+
+        if not critical_routes:
+            return {"optimized_activities": [], "total_acceleration_cost": 0}
+
+        # Identificar actividades únicas en rutas críticas
+        critical_activities = set()
+        for route in critical_routes:
+            critical_activities.update(route["route"])
+
+        # Filtrar actividades críticas con aceleración disponible
+        activities_to_accelerate = [
+            self.activity_dict[name] for name in critical_activities
+            if self.activity_dict[name].acceleration and self.activity_dict[name].acceleration_cost
+        ]
+
+        # Ordenar actividades por menor costo de aceleración por unidad de tiempo
+        activities_to_accelerate.sort(key=lambda act: act.acceleration_cost)
+
+        total_reduction_needed = self.get_project_duration() - self.expected_time
+        total_acceleration_cost = 0
+        optimized_activities = []
+
+        for activity in activities_to_accelerate:
+            if total_reduction_needed <= 0:
+                break  # Ya se alcanzó la meta de reducción de tiempo
+
+            # Determinar cuánto tiempo se puede reducir en esta actividad
+            max_reducible = min(activity.acceleration, total_reduction_needed)
+            reduction_cost = max_reducible * activity.acceleration_cost
+
+            # Registrar optimización aplicada
+            optimized_activities.append({
+                "activity": activity.name,
+                "time_reduced": max_reducible,
+                "acceleration_cost_per_unit": activity.acceleration_cost,
+                "total_acceleration_cost": reduction_cost
+            })
+
+            # Actualizar valores
+            total_reduction_needed -= max_reducible
+            total_acceleration_cost += reduction_cost
+
+        return {
+            "optimized_activities": optimized_activities,
+            "total_acceleration_cost": total_acceleration_cost
+        }
+

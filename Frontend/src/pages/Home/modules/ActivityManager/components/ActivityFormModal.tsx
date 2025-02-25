@@ -52,7 +52,7 @@ export const ActivityFormModal = ({
 
   const [open, setOpen] = useState(false);
   const [valueSelect, setValueSelect] = useState<string[]>(
-    predecessorActivities || []
+    activitySelected.precedents || []
   );
 
   const handleChange = (
@@ -107,6 +107,7 @@ export const ActivityFormModal = ({
   const handleChangeDependencie = (
     event: SelectChangeEvent<typeof valueSelect>
   ) => {
+    if (event.target.value.length === 0) return;
     const {
       target: { value },
     } = event;

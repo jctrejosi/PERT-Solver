@@ -23,11 +23,15 @@ def calculate_pert_route():
         table = Activity.calculate_table(activities)
         probability = pert_calculator.calculate_completion_probability()
 
+        # Calcular optimización de la ruta crítica
+        optimization_result = pert_calculator.optimize_critical_path()
+
         response = {
             'routes': routes,
             'table': table,
             'activity_times': activity_times,
             'probability': probability,
+            'optimized_activities': optimization_result,
         }
         return jsonify(response)
     except Exception as e:

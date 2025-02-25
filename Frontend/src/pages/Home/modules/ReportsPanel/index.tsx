@@ -81,6 +81,7 @@ export function ReportsPanel() {
         <RoutesList />
         <Typography variant="h6">Tabla de varianzas</Typography>
         <ActivitiesTable />
+        <Typography variant="h6">Probabilidad de completar la ruta: {STATE.probability}</Typography>
       </Box>
     </Box>
   );

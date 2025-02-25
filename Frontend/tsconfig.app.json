@@ -49,7 +49,7 @@
         "src/store/*"
       ],
       "@services/*": [
-        "src/services/*"
+        "src/configuration/*"
       ]
     }
   },

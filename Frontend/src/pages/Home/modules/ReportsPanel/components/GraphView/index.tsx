@@ -47,7 +47,7 @@ export function GraphView({ activities }: GraphViewProps) {
       position: { x: 0, y: 0 }, // Se actualizará con Dagre
       data: {
         label: activity.name,
-        tiempo: activity.probable,
+        tiempo: Number(((activity.pessimist && activity.optimist) ? (activity.pessimist + 4 * activity.probable + activity.optimist)/6 : activity.probable).toFixed(2)),
         costo: activity.cost,
       },
       sourcePosition: Position.Right,

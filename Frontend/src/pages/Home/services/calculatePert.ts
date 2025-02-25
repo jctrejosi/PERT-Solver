@@ -14,6 +14,10 @@ export type RequestCalculatePert = {
   routes: Route[];
   table: TableVariance[];
   activity_times: AcitvityTimes[];
+  probability: {
+    Z_score: number;
+    completion_probability: number;
+  };
 };
 
 export const ApiCalculatePert = (
@@ -26,6 +30,7 @@ export const ApiCalculatePert = (
       dispatch(ActionsHome.SetTable(response.data.table));
       dispatch(ActionsHome.SetRoutes(response.data.routes));
       dispatch(ActionsHome.SetActivityTimes(response.data.activity_times));
+      dispatch(ActionsHome.SetProbability(response.data.probability.completion_probability));
     })
     .catch((error) => {
       console.error(error);

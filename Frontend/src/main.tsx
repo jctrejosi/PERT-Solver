@@ -6,7 +6,7 @@ import "./styles/globalStyles.css";
 import { lightTheme } from "./styles/themesMui";
 import { Provider } from "react-redux";
 import { store } from "./store";
-import { axiosConfiguration } from "@services/configurationAxios";
+import { axiosConfiguration } from "./configuration/configurationAxios";
 
 axiosConfiguration();
 
