@@ -51,7 +51,10 @@ export function ReportsPanel() {
 
       <Box sx={{ height: graphHeight, flexShrink: 0, position: "relative" }}>
         <ReactFlowProvider>
-          <RoutesGraph activities={STATE.activities} />
+          <RoutesGraph
+            activities={STATE.activities}
+            highlightedRoute={STATE.critical_path}
+          />
         </ReactFlowProvider>
       </Box>
 
@@ -89,9 +92,14 @@ export function ReportsPanel() {
         )}
         {STATE.table.length > 0 && (
           <Box>
-            <Typography variant="h6">Tabla de actividades con sus varianzas</Typography>
+            <Typography variant="h6">
+              Tabla de actividades con sus varianzas
+            </Typography>
             <ActivitiesTable />
-            <Typography variant="subtitle1">La probabilidad de completar el proyecto en {STATE.expected_time} unidades de tiempo es de {STATE.probability}%</Typography>
+            <Typography variant="subtitle1">
+              La probabilidad de completar el proyecto en {STATE.expected_time}{" "}
+              unidades de tiempo es de {STATE.probability}%
+            </Typography>
           </Box>
         )}
         {STATE.optimized_activities?.length > 0 && (
@@ -114,7 +122,9 @@ export function ReportsPanel() {
         )}
         {STATE.activity_times.length > 0 && (
           <Box>
-            <Typography variant="h6">Rendimiento acumulado de tiempos</Typography>
+            <Typography variant="h6">
+              Rendimiento acumulado de tiempos
+            </Typography>
             <PeriodTimesChart activityTimes={STATE.activity_times} />
           </Box>
         )}

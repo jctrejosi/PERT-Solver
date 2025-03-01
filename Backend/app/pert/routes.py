@@ -22,6 +22,7 @@ def calculate_pert_route():
         activity_times = pert_calculator.get_activity_times()
         table = Activity.calculate_table(activities)
         probability = pert_calculator.calculate_completion_probability()
+        critical_path = pert_calculator.critical_path
 
         # Calcular optimización de la ruta crítica
         optimization_result = pert_calculator.optimize_critical_path()
@@ -32,6 +33,7 @@ def calculate_pert_route():
             'activity_times': activity_times,
             'probability': probability,
             'optimized_activities': optimization_result,
+            'critical_path': critical_path
         }
 
         return jsonify(response)

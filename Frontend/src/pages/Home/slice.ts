@@ -1,6 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../../store";
-import { AcitvityTimes, Activity, Route, TableVariance } from "@customTypes/core";
+import {
+  AcitvityTimes,
+  Activity,
+  Route,
+  TableVariance,
+} from "@customTypes/core";
 import { exampleActivities } from "./Examples/activities";
 import { OptimizedActivitiesT } from "./services/calculatePert";
 
@@ -13,6 +18,7 @@ const initialState = {
   probability: 0,
   optimized_activities: [] as OptimizedActivitiesT[],
   total_acceleration_cost: 0,
+  critical_path: [] as string[],
 };
 
 export const homeSlice = createSlice({
@@ -49,7 +55,10 @@ export const homeSlice = createSlice({
       probability: newValue.payload,
     }),
 
-    SetOptimizedActivities: (state, newValue: PayloadAction<OptimizedActivitiesT[]>) => ({
+    SetOptimizedActivities: (
+      state,
+      newValue: PayloadAction<OptimizedActivitiesT[]>
+    ) => ({
       ...state,
       optimized_activities: newValue.payload,
     }),
@@ -57,6 +66,11 @@ export const homeSlice = createSlice({
     SetTotalAccelerationCost: (state, newValue: PayloadAction<number>) => ({
       ...state,
       total_acceleration_cost: newValue.payload,
+    }),
+
+    SetCriticalPath: (state, newValue: PayloadAction<string[]>) => ({
+      ...state,
+      critical_path: newValue.payload,
     }),
 
     ResetState: () => initialState,

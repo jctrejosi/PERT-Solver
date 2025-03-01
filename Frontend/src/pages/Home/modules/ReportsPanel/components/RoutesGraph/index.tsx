@@ -15,17 +15,20 @@ import { Activity } from "@customTypes/core";
 
 export type GraphViewProps = {
   activities: Activity[];
+  highlightedRoute?: string[];
 };
 
-export function RoutesGraph({ activities }: GraphViewProps) {
-  const { fitView } = useReactFlow(); // Hook para controlar ReactFlow
+export function RoutesGraph({
+  activities,
+  highlightedRoute = [],
+}: GraphViewProps) {
+  const { fitView } = useReactFlow();
   const [nodes, setNodes] = useState<Node[]>([]);
   const [edges, setEdges] = useState<Edge[]>([]);
 
-  // Configurar Dagre.js para calcular las posiciones
   const getLayoutedElements = (nodes: Node[], edges: Edge[]) => {
     const g = new dagre.graphlib.Graph();
-    g.setGraph({ rankdir: "LR", nodesep: 100, ranksep: 70 }); // "LR" = Left to Right
+    g.setGraph({ rankdir: "LR", nodesep: 100, ranksep: 70 });
     g.setDefaultEdgeLabel(() => ({}));
 
     nodes.forEach((node) => g.setNode(node.id, { width: 120, height: 60 }));
@@ -40,21 +43,28 @@ export function RoutesGraph({ activities }: GraphViewProps) {
   };
 
   useEffect(() => {
-    // Generar nodos
     const updatedNodes: Node[] = activities.map((activity) => ({
       id: activity.name,
       type: "custom",
-      position: { x: 0, y: 0 }, // Se actualizará con Dagre
+      position: { x: 0, y: 0 },
       data: {
         label: activity.name,
-        tiempo: Number(((activity.pessimist && activity.optimist) ? (activity.pessimist + 4 * activity.probable + activity.optimist)/6 : activity.probable).toFixed(2)),
+        tiempo: Number(
+          (activity.pessimist && activity.optimist
+            ? (activity.pessimist + 4 * activity.probable + activity.optimist) /
+              6
+            : activity.probable
+          ).toFixed(2)
+        ),
         costo: activity.cost,
       },
       sourcePosition: Position.Right,
       targetPosition: Position.Left,
+      style: highlightedRoute.includes(activity.name)
+        ? { border: "2px solid red", backgroundColor: "#ffebee" }
+        : { border: "1px solid gray", backgroundColor: "#ffffff" },
     }));
 
-    // Generar aristas
     const updatedEdges: Edge[] = activities.flatMap(
       (activity) =>
         activity.precedents?.map((predecessor) => ({
@@ -62,19 +72,20 @@ export function RoutesGraph({ activities }: GraphViewProps) {
           source: predecessor,
           target: activity.name,
           animated: true,
-          style: { stroke: "#000", strokeWidth: 3 }, // Estilo personalizado para las aristas
+          style:
+            highlightedRoute.includes(predecessor) &&
+            highlightedRoute.includes(activity.name)
+              ? { stroke: "red", strokeWidth: 4 }
+              : { stroke: "#000", strokeWidth: 2 },
         })) || []
     );
 
-    // Aplicar layout
     const layoutedNodes = getLayoutedElements(updatedNodes, updatedEdges);
-
     setNodes(layoutedNodes);
     setEdges(updatedEdges);
 
-    // 🔹 Ajustar el zoom automáticamente al cambiar actividades
     setTimeout(() => fitView({ duration: 500, padding: 0.2 }), 100);
-  }, [activities, fitView]); // Se ejecuta cada vez que `activities` cambia
+  }, [activities, highlightedRoute, fitView]);
 
   return (
     <Paper style={{ height: "100%" }} elevation={3}>
