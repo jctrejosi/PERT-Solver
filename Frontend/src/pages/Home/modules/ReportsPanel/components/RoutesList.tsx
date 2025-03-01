@@ -30,22 +30,16 @@ export default function RoutesList() {
         {routes.map((route, index) => (
           <Grid item xs={12 / columns} key={index}>
             <List sx={{ padding: 0 }}>
-              <ListItem
-                sx={{
-                  color:
-                    expected_time < route.completion_time
-                      ? theme.palette.error.main
-                      : theme.palette.primary.light,
-                }}
-              >
+              <ListItem>
                 <ListItemAvatar>
                   <Avatar
                     sx={{
                       backgroundColor:
                         expected_time < route.completion_time
                           ? theme.palette.error.main
-                          : theme.palette.primary.light,
+                          : theme.palette.primary.main,
                       padding: 0.5,
+                      color: theme.palette.primary.light,
                     }}
                   >
                     <Typography>{route.completion_time}</Typography>

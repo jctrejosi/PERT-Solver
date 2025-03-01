@@ -13,6 +13,7 @@ class Activity:
         self.probable = probable
         self.pessimist = pessimist
         self.average_time = self.calculate_average_time()
+        self.variance = self.calculate_variance()
 
     def calculate_average_time(self) -> float:
         if self.optimist is not None and self.pessimist is not None:
@@ -29,7 +30,7 @@ class Activity:
             'name': self.name,
             'precedents': self.precedents,
             'average_time': self.average_time,
-            'variance': self.calculate_variance()
+            'variance': self.variance
         }
 
     def __repr__(self):
@@ -120,12 +121,12 @@ class PERTCalculator:
 
     def calculate_completion_probability(self):
         min_completion_time = self.get_project_duration()
-        variance_total = sum(self.activity_dict[act].calculate_variance() for act in self.critical_path)
+        variance_total = round(sum(self.activity_dict[activity].calculate_variance() for activity in self.critical_path),2)
         std_dev_total = math.sqrt(variance_total)
-        Z = (self.expected_time - min_completion_time) / std_dev_total
+        Z = (min_completion_time - self.expected_time) / std_dev_total
         probability = norm.cdf(Z)
         self.probability = probability
-        return {"Z_score": round(Z, 2), "completion_probability": round(probability * 100, 2)}
+        return {"varianza total": variance_total, "min_completion_time": min_completion_time, "Z_score": round(Z, 2), "completion_probability": round(probability * 100, 2), "critical path": min_completion_time}
 
     def get_activity_times(self):
         return [

@@ -114,7 +114,7 @@ export function ReportsPanel() {
         )}
         {STATE.activity_times.length > 0 && (
           <Box>
-            <Typography variant="h6">Rendimiento de tiempos</Typography>
+            <Typography variant="h6">Rendimiento acumulado de tiempos</Typography>
             <PeriodTimesChart activityTimes={STATE.activity_times} />
           </Box>
         )}
