@@ -30,3 +30,9 @@ export type AcitvityTimes = {
   slack: number;
   name: string;
 };
+
+export type ActivityInform = {
+  name: string;
+  cost_spent: number;
+  progress: number;
+};

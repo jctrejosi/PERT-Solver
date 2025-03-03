@@ -3,6 +3,7 @@ import type { RootState } from "../../store";
 import {
   AcitvityTimes,
   Activity,
+  ActivityInform,
   Route,
   TableVariance,
 } from "@customTypes/core";
@@ -20,12 +21,27 @@ const initialState = {
   total_acceleration_cost: 0,
   critical_path: [] as string[],
   showInform: false,
+  actual_time: undefined as number | undefined,
+  activities_inform: [] as ActivityInform[],
 };
 
 export const homeSlice = createSlice({
   name: "home",
   initialState,
   reducers: {
+    SetActivitiesInform: (
+      state,
+      newValue: PayloadAction<ActivityInform[]>
+    ) => ({
+      ...state,
+      activities_inform: newValue.payload,
+    }),
+
+    SetActualTime: (state, newValue: PayloadAction<number>) => ({
+      ...state,
+      actual_time: newValue.payload,
+    }),
+
     SetActivities: (state, newValue: PayloadAction<Activity[]>) => ({
       ...state,
       activities: newValue.payload,

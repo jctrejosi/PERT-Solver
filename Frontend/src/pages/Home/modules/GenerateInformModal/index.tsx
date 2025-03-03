@@ -15,24 +15,14 @@ import {
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "@store/hooks";
 import { GetStateHome, ActionsHome } from "@pages/Home/slice";
-
-export type Activity = {
-  name: string;
-  precedents?: string[];
-  cost: number;
-  acceleration?: number;
-  acceleration_cost?: number;
-  optimist?: number;
-  probable: number;
-  pessimist?: number;
-};
+import { ActivityInform } from "@customTypes/core";
 
 export function GenerateInformModal() {
   const dispatch = useAppDispatch();
   const { activities, showInform } = useAppSelector(GetStateHome);
   const [time, setTime] = useState(0);
 
-  const [reportData, setReportData] = useState(
+  const [reportData, setReportData] = useState<ActivityInform[]>(
     activities.map((activity) => ({
       name: activity.name,
       cost_spent: 0,
@@ -52,6 +42,8 @@ export function GenerateInformModal() {
 
   const handleSubmit = () => {
     dispatch(ActionsHome.SetShowInform(false));
+    dispatch(ActionsHome.SetActualTime(time));
+    dispatch(ActionsHome.SetActivitiesInform(reportData));
   };
 
   const handleClose = () => {
@@ -62,13 +54,6 @@ export function GenerateInformModal() {
     const value = Number(event.target.value);
     if (value > 0) {
       setTime(value);
-    }
-  };
-
-  const handleInputTime = (event: ChangeEvent<HTMLInputElement>) => {
-    let value = Number(event.target.value);
-    if (value <= 0) {
-      return (value = 1);
     }
   };
 
@@ -97,10 +82,8 @@ export function GenerateInformModal() {
           label="Tiempo transcurrido"
           variant="filled"
           value={time}
-          onInput={handleInputTime}
           onChange={handleChangeTime}
           style={{ marginBottom: "1rem" }}
-          inputProps={{ min: 1 }}
         />
 
         <TableContainer
