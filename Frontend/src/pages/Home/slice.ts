@@ -19,6 +19,7 @@ const initialState = {
   optimized_activities: [] as OptimizedActivitiesT[],
   total_acceleration_cost: 0,
   critical_path: [] as string[],
+  showInform: false,
 };
 
 export const homeSlice = createSlice({
@@ -28,6 +29,11 @@ export const homeSlice = createSlice({
     SetActivities: (state, newValue: PayloadAction<Activity[]>) => ({
       ...state,
       activities: newValue.payload,
+    }),
+
+    SetShowInform: (state, newValue: PayloadAction<boolean>) => ({
+      ...state,
+      showInform: newValue.payload,
     }),
 
     SetExpectedTime: (state, newValue: PayloadAction<number>) => ({
