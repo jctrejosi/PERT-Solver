@@ -1,4 +1,4 @@
-import { Typography, Box } from "@mui/material";
+import { Typography, Box, Card, CardContent } from "@mui/material";
 import { RoutesGraph } from "./components/RoutesGraph";
 import { ReactFlowProvider } from "@xyflow/react";
 import { useAppSelector } from "@store/hooks";
@@ -86,10 +86,12 @@ export function ReportsPanel() {
       </Box>
 
       <Box sx={{ flex: 1, display: "flex", flexDirection: "column", gap: 6 }}>
-        <Typography variant="subtitle1">
-          La probabilidad de completar el proyecto en {STATE.expected_time}{" "}
-          unidades de tiempo es de {STATE.probability}%
-        </Typography>
+        {STATE.probability && (
+          <Typography variant="subtitle1">
+            La probabilidad de completar el proyecto en {STATE.expected_time}{" "}
+            unidades de tiempo es de {STATE.probability}%
+          </Typography>
+        )}
         {STATE.routes.length > 0 && (
           <Box>
             <Typography variant="h6">Lista de rutas</Typography>
@@ -108,7 +110,6 @@ export function ReportsPanel() {
             <ActivitiesTable />
           </Box>
         )}
-
         {STATE.activity_times.length > 0 && (
           <Box>
             <Typography variant="h6">Tiempos tempranos y tardíos</Typography>
@@ -129,15 +130,32 @@ export function ReportsPanel() {
             <PeriodTimesChart activityTimes={STATE.activity_times} />
           </Box>
         )}
-        {STATE.cost_analysis && (
+        {STATE.table.length > 0 && (
+          <Box>
+            <Card sx={{ margin: "auto", mt: 3, boxShadow: 2 }}>
+              <CardContent>
+                <Typography variant="h5" gutterBottom>
+                  Análisis de optimización
+                </Typography>
+                <Typography
+                  variant="body1"
+                  sx={{ whiteSpace: "pre-line", fontSize: 16, lineHeight: 1.5 }}
+                >
+                  {STATE.ai_analysis_pert}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Box>
+        )}
+        {STATE.cost_analysis.activities?.length > 0 && (
+          <Box>
+            <CostAnalysisTable activities={STATE.cost_analysis.activities} />
+          </Box>
+        )}
+        {STATE.cost_analysis?.budgeted_cost_at_time && (
           <Box>
             <Typography variant="h6">Análisis de costos</Typography>
             <CostAnalysisSection {...STATE.cost_analysis} />
-          </Box>
-        )}
-        {STATE.cost_analysis.activities && (
-          <Box>
-            <CostAnalysisTable activities={STATE.cost_analysis.activities} />
           </Box>
         )}
       </Box>

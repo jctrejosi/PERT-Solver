@@ -18,7 +18,7 @@ const initialState = {
   routes: [] as Route[],
   expected_time: 33,
   activity_times: [] as AcitvityTimes[],
-  probability: 0,
+  probability: null as number | null,
   optimized_activities: [] as OptimizedActivitiesT[],
   total_acceleration_cost: 0,
   total_cost: 0,
@@ -26,6 +26,7 @@ const initialState = {
   showInform: false,
   actual_time: undefined as number | undefined,
   activities_inform: [] as ActivityInform[],
+  ai_analysis_pert: "",
 
   // ---- Análisis del costo
 
@@ -40,6 +41,11 @@ export const homeSlice = createSlice({
     SetCostAnalysis: (state, newValue: PayloadAction<CostAnalysis>) => ({
       ...state,
       cost_analysis: newValue.payload,
+    }),
+
+    SetAiAnalysisPert: (state, newValue: PayloadAction<string>) => ({
+      ...state,
+      ai_analysis_pert: newValue.payload,
     }),
 
     SetTotalCost: (state, newValue: PayloadAction<number>) => ({

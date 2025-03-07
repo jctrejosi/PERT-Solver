@@ -18,7 +18,7 @@ export function CostAnalysisTable({ activities }: CostAnalysisTableProps) {
   return (
     <TableContainer component={Paper}>
       <Typography variant="h6" sx={{ p: 2 }}>
-        Análisis de Costos por Actividad
+        Análisis de costos por actividad
       </Typography>
       <Table>
         <TableHead>
@@ -27,16 +27,16 @@ export function CostAnalysisTable({ activities }: CostAnalysisTableProps) {
               <strong>Actividad</strong>
             </TableCell>
             <TableCell align="center">
-              <strong>Costo Planeado</strong>
+              <strong>Costo planeado</strong>
             </TableCell>
             <TableCell align="center">
-              <strong>Costo Real</strong>
+              <strong>Costo real</strong>
             </TableCell>
             <TableCell align="center">
-              <strong>Valor Ganado</strong>
+              <strong>Valor ganado</strong>
             </TableCell>
             <TableCell align="center">
-              <strong>Variación de Costos</strong>
+              <strong>Variación de costos</strong>
             </TableCell>
             <TableCell align="center">
               <strong>CPI</strong>

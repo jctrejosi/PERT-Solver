@@ -88,9 +88,9 @@ export function PeriodTimesChart({ activityTimes }: ActivityTimelineProps) {
     <ResponsiveContainer width="100%" height={300}>
       <LineChart
         data={chartData}
-        margin={{ top: 20, right: 30, left: 50, bottom: 5 }}
+        margin={{ top: 20, right: 70, left: 0, bottom: 5 }}
       >
-        <XAxis type="number" dataKey="time" domain={["auto", "auto"]} />
+        <XAxis type="number" dataKey="time" domain={[0, "dataMax"]} />
         <YAxis />
         <Tooltip />
         <Legend />

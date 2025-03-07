@@ -21,6 +21,7 @@ pandas = "*"
 flask-cors = "*"
 scipy = "*"
 openai = "*"
+python-dotenv = "*"
 
 [dev-packages]
 

@@ -1,5 +1,7 @@
 from flask import Blueprint, jsonify, request
 from .models import PERTCalculator, Activity
+import openai
+from dotenv import load_dotenv
 
 bp = Blueprint('main', __name__)
 
@@ -30,6 +32,36 @@ def calculate_pert_route():
         # Calcular el costo total del proyecto
         total_project_cost = sum(activity.cost for activity in activities)
 
+        # Preparar datos para ChatGPT
+        prompt = f"""
+        Eres un experto en gestión de proyectos y análisis PERT. Con base en los siguientes datos, proporciona un análisis detallado del estado del proyecto, identificando posibles riesgos, áreas de mejora y recomendaciones estratégicas.
+        - Tabla de actividades: {table}
+        - Costo total planeado: {total_project_cost}
+        - Probabilidad de finalización: {probability}
+        - Ruta crítica: {critical_path}
+        - Rutas del proyecto: {routes}
+        - Actividades a optimizar: {optimization_result}
+        - Tiempos tardíos y tempranos del proyecto: {activity_times}
+        Instrucciones para la interpretación:
+        Evaluación del presupuesto: Analiza si el costo total planeado parece adecuado en función de la tabla de actividades y si puede haber riesgos de sobrecostos.
+        Análisis del tiempo y probabilidad de finalización: Evalúa si la probabilidad de finalización es suficiente y si hay riesgos de retraso.
+        Análisis de la ruta crítica: Explica su impacto en el tiempo total del proyecto y si hay margen de ajuste.
+        Optimización del proyecto: Identifica qué actividades pueden optimizarse y cómo esto afectaría los costos y tiempos.
+        Conclusión y recomendaciones: Sugiere estrategias para mejorar la gestión del proyecto, reducir costos y minimizar riesgos.
+        """
+
+        # Llamar a la API de OpenAI
+        client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+        response_ai = client.chat.completions.create(
+            model="gpt-4",
+            messages=[
+                {"role": "system", "content": "Eres un experto en gestión de proyectos y costos."},
+                {"role": "user", "content": prompt}
+            ]
+        )
+
+        ai_analysis = response_ai.choices[0].message.content
+
         response = {
             'routes': routes,
             'table': table,
@@ -37,7 +69,8 @@ def calculate_pert_route():
             'probability': probability,
             'optimized_activities': optimization_result,
             'critical_path': critical_path,
-            'total_project_cost': total_project_cost
+            'total_project_cost': total_project_cost,
+            'ai_analysis': ai_analysis
         }
 
         return jsonify(response)
