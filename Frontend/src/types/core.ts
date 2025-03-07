@@ -58,5 +58,6 @@ export type CostAnalysis = {
   total_earned_value: number; // Valor ganado (EV)
   total_cost_variance: number; // Variación de costos (EV - Costo real)
   overall_CPI: number; // Índice de desempeño de costos (CPI = EV / AC)
+  budgeted_cost_at_time: number;
   activities: ActivityCost[]; // Lista de costos por actividad
 };

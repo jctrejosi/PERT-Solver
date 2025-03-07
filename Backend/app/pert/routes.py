@@ -87,17 +87,23 @@ def project_progress():
         total_cost_variance = total_earned_value - total_actual_cost
         overall_cpi = (total_earned_value / total_actual_cost) if total_actual_cost > 0 else 0
 
+        # Calcular costo presupuestado hasta current_time
+        activity_times = pert_calculator.get_activity_times()
+        budgeted_cost_at_time = sum(
+            act.cost for act in activities if next((t for t in activity_times if t["name"] == act.name), {}).get("earliest_finish", float('inf')) <= current_time
+        )
+
         project_cost_report = {
             "total_planned_cost": total_planned_cost,
             "total_actual_cost": total_actual_cost,
             "total_earned_value": total_earned_value,
             "total_cost_variance": total_cost_variance,
             "overall_CPI": overall_cpi,
+            "budgeted_cost_at_time": budgeted_cost_at_time,
             "activities": cost_analysis
         }
 
         # Generar datos de rendimiento acumulado de tiempos
-        activity_times = pert_calculator.get_activity_times()
         time_progression = []
 
         for activity in activity_times:
