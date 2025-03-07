@@ -12,61 +12,82 @@ import {
 import { useTheme } from "@mui/material/styles";
 import { useAppSelector } from "@store/hooks";
 import { GetStateHome } from "@pages/Home/slice";
+import { useEffect, useState } from "react";
 
 export type ActivityTimelineProps = {
   activityTimes: AcitvityTimes[];
 };
 
 export function PeriodTimesChart({ activityTimes }: ActivityTimelineProps) {
-  const { actual_time } = useAppSelector(GetStateHome);
+  const { actual_time, time_progression } = useAppSelector(GetStateHome);
   const theme = useTheme();
+  const [chartData, setChartData] = useState<
+    { time: number; early: number; late: number; progression?: number }[]
+  >([]);
 
-  const timeMap: Record<number, { early: number; late: number }> = {};
+  useEffect(() => {
+    const timeMap: Record<
+      number,
+      { early: number; late: number; progression?: number }
+    > = {};
 
-  // Construir el histograma de concurrencia
-  activityTimes.forEach(
-    ({ earliest_start, earliest_finish, latest_start, latest_finish }) => {
-      for (
-        let t = Math.floor(earliest_start);
-        t < Math.ceil(earliest_finish);
-        t++
-      ) {
-        if (!timeMap[t]) timeMap[t] = { early: 0, late: 0 };
-        timeMap[t].early += 1;
+    // Construir el histograma de concurrencia
+    activityTimes.forEach(
+      ({ earliest_start, earliest_finish, latest_start, latest_finish }) => {
+        for (
+          let t = Math.floor(earliest_start);
+          t < Math.ceil(earliest_finish);
+          t++
+        ) {
+          if (!timeMap[t]) timeMap[t] = { early: 0, late: 0 };
+          timeMap[t].early += 1;
+        }
+        for (
+          let t = Math.floor(latest_start);
+          t < Math.ceil(latest_finish);
+          t++
+        ) {
+          if (!timeMap[t]) timeMap[t] = { early: 0, late: 0 };
+          timeMap[t].late += 1;
+        }
       }
-      for (
-        let t = Math.floor(latest_start);
-        t < Math.ceil(latest_finish);
-        t++
-      ) {
-        if (!timeMap[t]) timeMap[t] = { early: 0, late: 0 };
-        timeMap[t].late += 1;
-      }
+    );
+
+    // Agregar la progresión temporal a los datos si existe
+    if (time_progression.length > 0) {
+      time_progression.forEach(({ time, cumulative_count }) => {
+        if (!timeMap[time])
+          timeMap[time] = { early: 0, late: 0, progression: 0 };
+        timeMap[time].progression = cumulative_count;
+      });
     }
-  );
 
-  // Ordenamos los tiempos y generamos la sumatoria acumulativa
-  const sortedTimes = Object.keys(timeMap)
-    .map(Number)
-    .sort((a, b) => a - b);
-  let earlySum = 0;
-  let lateSum = 0;
+    // Ordenamos los tiempos y generamos la sumatoria acumulativa
+    const sortedTimes = Object.keys(timeMap)
+      .map(Number)
+      .sort((a, b) => a - b);
+    let earlySum = 0;
+    let lateSum = 0;
 
-  const data = sortedTimes.map((time) => {
-    earlySum += timeMap[time].early; // Suma acumulativa de actividades tempranas
-    lateSum += timeMap[time].late; // Suma acumulativa de actividades tardías
+    const data = sortedTimes.map((time) => {
+      earlySum += timeMap[time].early; // Suma acumulativa de actividades tempranas
+      lateSum += timeMap[time].late; // Suma acumulativa de actividades tardías
 
-    return {
-      time,
-      early: earlySum,
-      late: lateSum,
-    };
-  });
+      return {
+        time,
+        early: earlySum,
+        late: lateSum,
+        progression: timeMap[time].progression ?? 0,
+      };
+    });
+
+    setChartData(data);
+  }, [activityTimes, time_progression]);
 
   return (
     <ResponsiveContainer width="100%" height={300}>
       <LineChart
-        data={data}
+        data={chartData}
         margin={{ top: 20, right: 30, left: 50, bottom: 5 }}
       >
         <XAxis type="number" dataKey="time" domain={["auto", "auto"]} />
@@ -103,6 +124,16 @@ export function PeriodTimesChart({ activityTimes }: ActivityTimelineProps) {
           name="Tardías"
           strokeWidth={3}
         />
+        {/* Línea de progresión temporal en rojo, solo si hay datos */}
+        {time_progression.length > 0 && (
+          <Line
+            type="monotone"
+            dataKey="progression"
+            stroke="red"
+            name="Progresión Temporal"
+            strokeWidth={3}
+          />
+        )}
       </LineChart>
     </ResponsiveContainer>
   );

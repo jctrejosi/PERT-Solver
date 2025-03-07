@@ -29,7 +29,9 @@ export const ApiProjectProgress = (
     .post<RequestCalculatePert>("/api/v1.0/projectProgress", params)
     .then((response) => {
       dispatch(ActionsHome.SetCostAnalysis(response.data.cost_analysis));
-      dispatch(ActionsHome.SetTimeProgression(response.data.time_progression));
+      dispatch(
+        ActionsHome.SetTimeProgression(response.data.time_progression || [])
+      );
     })
     .catch((error) => {
       console.error(error);

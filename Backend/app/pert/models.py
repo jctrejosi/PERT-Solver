@@ -30,7 +30,8 @@ class Activity:
             'name': self.name,
             'precedents': self.precedents,
             'average_time': self.average_time,
-            'variance': self.variance
+            'variance': self.variance,
+            'cost': self.cost
         }
 
     def __repr__(self):

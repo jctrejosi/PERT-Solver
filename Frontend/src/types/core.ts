@@ -20,6 +20,7 @@ export type TableVariance = {
   name: string;
   precedents: [];
   variance: number;
+  cost: number;
 };
 
 export type AcitvityTimes = {

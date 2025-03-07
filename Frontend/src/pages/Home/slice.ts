@@ -21,6 +21,7 @@ const initialState = {
   probability: 0,
   optimized_activities: [] as OptimizedActivitiesT[],
   total_acceleration_cost: 0,
+  total_cost: 0,
   critical_path: [] as string[],
   showInform: false,
   actual_time: undefined as number | undefined,
@@ -41,12 +42,17 @@ export const homeSlice = createSlice({
       cost_analysis: newValue.payload,
     }),
 
+    SetTotalCost: (state, newValue: PayloadAction<number>) => ({
+      ...state,
+      total_cost: newValue.payload,
+    }),
+
     SetTimeProgression: (
       state,
       newValue: PayloadAction<TimeProgression[]>
     ) => ({
       ...state,
-      TimeProgression: newValue.payload,
+      time_progression: newValue.payload,
     }),
 
     SetActivityInform: (state, newValue: PayloadAction<ActivityInform[]>) => ({
