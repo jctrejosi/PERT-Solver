@@ -12,6 +12,7 @@ import { OptimizedActivitiesTable } from "./components/OptimizedActivitiesTable"
 import { ActivityTimelineChart } from "./components/ActivityTimelineChart";
 import { PeriodTimesChart } from "./components/PeriodTimesChart";
 import { CostAnalysisSection } from "./components/CostAnalysisSection";
+import { CostAnalysisTable } from "./components/CostAnalysisTable";
 
 export function ReportsPanel() {
   const STATE = useAppSelector(GetStateHome);
@@ -134,6 +135,11 @@ export function ReportsPanel() {
           <Box>
             <Typography variant="h6">Análisis de costos</Typography>
             <CostAnalysisSection {...STATE.cost_analysis} />
+          </Box>
+        )}
+        {STATE.cost_analysis.activities && (
+          <Box>
+            <CostAnalysisTable activities={STATE.cost_analysis.activities} />
           </Box>
         )}
       </Box>

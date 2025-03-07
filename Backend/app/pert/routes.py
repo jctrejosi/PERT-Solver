@@ -57,7 +57,7 @@ def project_progress():
 
         # Calcular costos actuales
         cost_analysis = []
-        total_actual_cost = 0
+        total_actual_cost = 0  # CRA - Costo Real Acumulado
         total_planned_cost = sum(activity.cost for activity in activities)
 
         for progress in progress_data:
@@ -83,11 +83,11 @@ def project_progress():
             })
 
         # Calcular índices generales del proyecto
-        total_earned_value = sum(item["earned_value"] for item in cost_analysis)
+        total_earned_value = sum(item["earned_value"] for item in cost_analysis)  # VDA
         total_cost_variance = total_earned_value - total_actual_cost
-        overall_cpi = (total_earned_value / total_actual_cost) if total_actual_cost > 0 else 0
+        overall_cpi = (total_earned_value / total_actual_cost) if total_actual_cost > 0 else 0  # IDC
 
-        # Calcular costo presupuestado hasta current_time
+        # Calcular costo presupuestado hasta current_time (CPAT)
         activity_times = pert_calculator.get_activity_times()
         budgeted_cost_at_time = sum(
             act.cost for act in activities if next((t for t in activity_times if t["name"] == act.name), {}).get("earliest_finish", float('inf')) <= current_time
@@ -95,11 +95,11 @@ def project_progress():
 
         project_cost_report = {
             "total_planned_cost": total_planned_cost,
-            "total_actual_cost": total_actual_cost,
-            "total_earned_value": total_earned_value,
+            "total_actual_cost": total_actual_cost,  # CRA
+            "total_earned_value": total_earned_value,  # VDA
             "total_cost_variance": total_cost_variance,
-            "overall_CPI": overall_cpi,
-            "budgeted_cost_at_time": budgeted_cost_at_time,
+            "overall_CPI": overall_cpi,  # IDC
+            "budgeted_cost_at_time": budgeted_cost_at_time,  # CPAT
             "activities": cost_analysis
         }
 
