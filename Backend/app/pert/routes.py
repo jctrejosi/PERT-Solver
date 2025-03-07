@@ -27,13 +27,17 @@ def calculate_pert_route():
         # Calcular optimización de la ruta crítica
         optimization_result = pert_calculator.optimize_until_expected()
 
+        # Calcular el costo total del proyecto
+        total_project_cost = sum(activity.cost for activity in activities)
+
         response = {
             'routes': routes,
             'table': table,
             'activity_times': activity_times,
             'probability': probability,
             'optimized_activities': optimization_result,
-            'critical_path': critical_path
+            'critical_path': critical_path,
+            'total_project_cost': total_project_cost
         }
 
         return jsonify(response)

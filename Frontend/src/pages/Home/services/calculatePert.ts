@@ -37,6 +37,7 @@ export type RequestCalculatePert = {
     total_acceleration_cost: number;
   };
   critical_path: string[];
+  total_project_cost: number;
 };
 
 export const ApiCalculatePert = (
@@ -49,6 +50,7 @@ export const ApiCalculatePert = (
       dispatch(ActionsHome.SetTable(response.data.table));
       dispatch(ActionsHome.SetRoutes(response.data.routes));
       dispatch(ActionsHome.SetCriticalPath(response.data.critical_path));
+      dispatch(ActionsHome.SetTotalCost(response.data.total_project_cost));
       dispatch(ActionsHome.SetActivityTimes(response.data.activity_times));
       dispatch(
         ActionsHome.SetProbability(

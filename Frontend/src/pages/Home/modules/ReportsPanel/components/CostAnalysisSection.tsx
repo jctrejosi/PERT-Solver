@@ -23,36 +23,37 @@ export function CostAnalysisSection({
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <Typography variant="body1">
-              <strong>Costo Real:</strong> ${total_actual_cost.toLocaleString()}
+              <strong>Costo real acumulado:</strong> $
+              {total_actual_cost.toLocaleString()}
             </Typography>
           </Grid>
           <Grid item xs={12} sm={6}>
             <Typography variant="body1">
-              <strong>Costo presupuestado hasta ahora:</strong> $
+              <strong>Costo presupuestado actual: </strong> $
               {budgeted_cost_at_time.toLocaleString()}
+            </Typography>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Typography variant="body1">
+              <strong>Valor de desempeño acumulado (VDA):</strong> $
+              {total_earned_value.toLocaleString()}
+            </Typography>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Typography variant="body1">
+              <strong>Variación de costos:</strong> $
+              {total_cost_variance.toLocaleString()}
+            </Typography>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Typography variant="body1">
+              <strong>Índice del costo:</strong> {overall_CPI.toFixed(2)}
             </Typography>
           </Grid>
           <Grid item xs={12} sm={6}>
             <Typography variant="body1">
               <strong>Costo planeado total:</strong> $
               {total_planned_cost.toLocaleString()}
-            </Typography>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Typography variant="body1">
-              <strong>Valor Ganado:</strong> $
-              {total_earned_value.toLocaleString()}
-            </Typography>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Typography variant="body1">
-              <strong>Variación de Costos:</strong> $
-              {total_cost_variance.toLocaleString()}
-            </Typography>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Typography variant="body1">
-              <strong>CPI:</strong> {overall_CPI.toFixed(2)}
             </Typography>
           </Grid>
         </Grid>

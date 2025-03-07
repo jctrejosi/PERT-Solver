@@ -11,7 +11,7 @@ import { RootState } from "@store/index";
 export function ActivitiesTable() {
   const table = useAppSelector((state: RootState) => state.home.table);
   const total_cost = useAppSelector(
-    (state: RootState) => state.home.total_acceleration_cost
+    (state: RootState) => state.home.total_cost
   );
 
   return (

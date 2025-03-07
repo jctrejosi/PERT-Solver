@@ -130,7 +130,7 @@ export function PeriodTimesChart({ activityTimes }: ActivityTimelineProps) {
             type="monotone"
             dataKey="progression"
             stroke="red"
-            name="Progresión Temporal"
+            name="Actual"
             strokeWidth={3}
           />
         )}

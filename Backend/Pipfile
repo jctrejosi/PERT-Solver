@@ -20,6 +20,7 @@ flask = "*"
 pandas = "*"
 flask-cors = "*"
 scipy = "*"
+openai = "*"
 
 [dev-packages]
 

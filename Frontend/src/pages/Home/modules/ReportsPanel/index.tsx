@@ -104,9 +104,7 @@ export function ReportsPanel() {
         )}
         {STATE.table.length > 0 && (
           <Box>
-            <Typography variant="h6">
-              Tabla de actividades con sus varianzas
-            </Typography>
+            <Typography variant="h6">Tabla de actividades</Typography>
             <ActivitiesTable />
           </Box>
         )}
