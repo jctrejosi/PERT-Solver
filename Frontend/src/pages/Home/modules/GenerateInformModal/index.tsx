@@ -16,6 +16,7 @@ import {
 import { useAppDispatch, useAppSelector } from "@store/hooks";
 import { GetStateHome, ActionsHome } from "@pages/Home/slice";
 import { ActivityInform } from "@customTypes/core";
+import { ApiProjectProgress } from "../../services/projectProgress";
 
 export function GenerateInformModal() {
   const dispatch = useAppDispatch();
@@ -43,7 +44,15 @@ export function GenerateInformModal() {
   const handleSubmit = () => {
     dispatch(ActionsHome.SetShowInform(false));
     dispatch(ActionsHome.SetActualTime(time));
-    dispatch(ActionsHome.SetActivitiesInform(reportData));
+    dispatch(ActionsHome.SetActivityInform(reportData));
+    ApiProjectProgress(
+      {
+        activities,
+        progress: reportData,
+        current_time: time,
+      },
+      dispatch
+    );
   };
 
   const handleClose = () => {

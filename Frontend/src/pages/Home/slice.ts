@@ -4,8 +4,10 @@ import {
   AcitvityTimes,
   Activity,
   ActivityInform,
+  TimeProgression,
   Route,
   TableVariance,
+  CostAnalysis,
 } from "@customTypes/core";
 import { exampleActivities } from "./Examples/activities";
 import { OptimizedActivitiesT } from "./services/calculatePert";
@@ -14,7 +16,7 @@ const initialState = {
   activities: exampleActivities as Activity[],
   table: [] as TableVariance[],
   routes: [] as Route[],
-  expected_time: 31,
+  expected_time: 33,
   activity_times: [] as AcitvityTimes[],
   probability: 0,
   optimized_activities: [] as OptimizedActivitiesT[],
@@ -23,16 +25,31 @@ const initialState = {
   showInform: false,
   actual_time: undefined as number | undefined,
   activities_inform: [] as ActivityInform[],
+
+  // ---- Análisis del costo
+
+  cost_analysis: {} as CostAnalysis,
+  time_progression: [] as TimeProgression[],
 };
 
 export const homeSlice = createSlice({
   name: "home",
   initialState,
   reducers: {
-    SetActivitiesInform: (
+    SetCostAnalysis: (state, newValue: PayloadAction<CostAnalysis>) => ({
+      ...state,
+      cost_analysis: newValue.payload,
+    }),
+
+    SetTimeProgression: (
       state,
-      newValue: PayloadAction<ActivityInform[]>
+      newValue: PayloadAction<TimeProgression[]>
     ) => ({
+      ...state,
+      TimeProgression: newValue.payload,
+    }),
+
+    SetActivityInform: (state, newValue: PayloadAction<ActivityInform[]>) => ({
       ...state,
       activities_inform: newValue.payload,
     }),
