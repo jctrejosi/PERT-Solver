@@ -1,7 +1,7 @@
 import { AcitvityTimes } from "@customTypes/core";
 import {
-  LineChart,
-  Line,
+  BarChart,
+  Bar,
   XAxis,
   YAxis,
   Tooltip,
@@ -25,7 +25,6 @@ export function ActivityTimelineChart({
 
   const timeMap: Record<number, { early: number; late: number }> = {};
 
-  // Recorrer las actividades y llenar el conteo de concurrencia en cada unidad de tiempo
   activityTimes.forEach(
     ({ earliest_start, earliest_finish, latest_start, latest_finish }) => {
       for (
@@ -47,7 +46,6 @@ export function ActivityTimelineChart({
     }
   );
 
-  // Convertir el objeto a un array para Recharts
   const data = Object.entries(timeMap).map(([time, counts]) => ({
     time: Number(time),
     early: counts.early,
@@ -56,11 +54,15 @@ export function ActivityTimelineChart({
 
   return (
     <ResponsiveContainer width="100%" height={300}>
-      <LineChart
-        data={data}
-        margin={{ top: 20, right: 70, left: 0, bottom: 5 }}
-      >
-        <XAxis type="number" dataKey="time" domain={[0, "dataMax"]} />
+      <BarChart data={data} margin={{ top: 20, right: 70, left: 0, bottom: 5 }}>
+        <XAxis
+          type="number"
+          dataKey="time"
+          domain={[1, "dataMax"]}
+          tickCount={data.length}
+          allowDecimals={false}
+          interval={0}
+        />
         <YAxis />
         <Tooltip />
         <Legend />
@@ -78,23 +80,19 @@ export function ActivityTimelineChart({
             }}
           />
         )}
-        {/* Línea de actividades tempranas */}
-        <Line
-          type="monotone"
+        {/* Barras de actividades tempranas */}
+        <Bar
           dataKey="early"
-          stroke={theme.palette.primary.main}
+          fill={theme.palette.primary.main}
           name="Tempranas"
-          strokeWidth={3}
         />
-        {/* Línea de actividades tardías */}
-        <Line
-          type="monotone"
+        {/* Barras de actividades tardías */}
+        <Bar
           dataKey="late"
-          stroke={theme.palette.secondary.main}
+          fill={theme.palette.secondary.main}
           name="Tardías"
-          strokeWidth={3}
         />
-      </LineChart>
+      </BarChart>
     </ResponsiveContainer>
   );
 }
