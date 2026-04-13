@@ -174,3 +174,10 @@ def project_progress():
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+@bp.route('/api/v1.0/health', methods=['GET'])
+def health_check():
+    return jsonify({
+        "status": "ok",
+        "service": "running"
+    }), 200

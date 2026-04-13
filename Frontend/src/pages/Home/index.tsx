@@ -3,8 +3,36 @@ import { Navbar } from "@layouts/Navbar";
 import { ReportsPanel } from "./modules/ReportsPanel";
 import { ActivityManager } from "./modules/ActivityManager";
 import { GenerateInformModal } from "./modules/GenerateInformModal";
+import { BackendLoadingScreen } from "./modules/BackendLoadingScreen";
+import { useEffect, useState } from "react";
+import { ApiHealthCheck } from "./services/health";
 
 export function Home() {
+  const [backendReady, setBackendReady] = useState(false);
+
+  useEffect(() => {
+    // eslint-disable-next-line prefer-const
+    let interval: NodeJS.Timeout;
+
+    const checkBackend = async () => {
+      const isReady = await ApiHealthCheck();
+      if (isReady) {
+        setBackendReady(true);
+        clearInterval(interval);
+      }
+    };
+
+    checkBackend();
+
+    interval = setInterval(checkBackend, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  if (!backendReady) {
+    return <BackendLoadingScreen />;
+  }
+
   return (
     <Grid2 container style={{ height: "100%", width: "100%" }}>
       <Navbar />
